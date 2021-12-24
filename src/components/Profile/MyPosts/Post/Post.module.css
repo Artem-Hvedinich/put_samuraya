@@ -1,4 +1,6 @@
-/*.content {*/
-/*    grid-area: c;*/
-/*    background-color: #61dafb;*/
-/*}*/
+
+.item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+}

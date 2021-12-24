@@ -1,23 +1,17 @@
 import React from "react";
-import s from './MyPosts.module.css'
+import s from './Post.module.css'
 
-const MyPosts = () => {
+const Post = (props: any) => {
     return (
-        <div>
+        <div className={s.item}>
+
+            <img
+                src='https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'/>
             <div>
-                My post
-            </div>
-            <div>
-                New post
-            </div>
-            <div>
-                post 1
-            </div>
-            <div>
-                post 2
+                <span>Like</span>
             </div>
         </div>
-    )
+    );
 }
 
-export default MyPosts;
+export default Post;
