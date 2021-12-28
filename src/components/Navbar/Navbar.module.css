@@ -5,4 +5,9 @@
 
 a {
     color: white;
+    padding: 10px;
+}
+
+.item a{
+    color: gold;
 }
