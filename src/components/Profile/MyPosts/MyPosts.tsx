@@ -1,9 +1,9 @@
 import React from "react";
-import "./MyPosts.module.css"
+import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 
 const MyPosts = () => {
-    return <div>
+    return <div className={s.postsBlock}>
         <MyPostTitle/>
         <Post message='Hi, how are you?'/>
         <MyPostTitle/>
@@ -12,7 +12,9 @@ const MyPosts = () => {
 }
 
 function MyPostTitle() {
-    return <h1>My post</h1>
+    return <div>
+        <h2>My post</h2>
+    </div>
 }
 
 export default MyPosts;

@@ -10,6 +10,9 @@ const Post = (props: any) => {
             </div>
             {props.message}
             <div>
+                <textarea></textarea>
+            </div>
+            <div>
                 <button>Like</button>
             </div>
         </div>
