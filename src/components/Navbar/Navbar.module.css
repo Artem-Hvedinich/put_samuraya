@@ -5,10 +5,8 @@
     text-align: center;
 }
 
-.nav a{
-    color: #d1f8cc;
-}
-
 .item a{
-text-decoration: none;
+    text-decoration: none;
+    color: #d1f8cc;
+
 }
