@@ -1,20 +1,16 @@
 .app-wrapper {
     margin: 0 10px;
     display: grid;
-    width: 1200px;
+    width: 100%;
     grid-template-areas:
         'h h'
         'n c';
     grid-template-rows: 60px 1fr;
     grid-template-columns: 2fr 10fr;
     grid-gap: 10px;
+    background-image: url(https://www.publicdomainpictures.net/pictures/250000/velka/abstract-background-colors.jpg);
 }
 
 .app-wrapper-content {
     grid-area: c;
-    background-color: #4d655b;
 }
-
-
-
-

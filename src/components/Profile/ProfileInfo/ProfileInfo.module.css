@@ -1,7 +1,10 @@
 .descriptionsBlock{
     padding: 10px;
+    background-color: rgba(0, 247, 255, 0.4);
+
 }
 
 .item img{
     width: 100%;
+    opacity: 75%;
 }
