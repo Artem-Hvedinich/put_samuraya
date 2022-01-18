@@ -4,20 +4,19 @@ import s from './Post.module.css'
 const Post = (props: any) => {
     return (
         <div>
-            <MyPostTitle/>
-            <MyPostImg/>
-            {props.message}
             <div>
-                <textarea></textarea>
+                <MyPostImg/>
+                {props.message}
             </div>
             <div>
-                <span>Like</span> {props.likesCount}
+                <span>Like</span>
+                {props.likesCount}
             </div>
         </div>
     );
 }
 
-function MyPostTitle() {
+export function MyPostTitle() {
     return <div>
         <h2>My post</h2>
     </div>

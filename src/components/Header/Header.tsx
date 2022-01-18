@@ -5,11 +5,14 @@ import s from './Header.module.css'
 const Header = () => {
     return (
         <header className={s.header}>
-            <img
-                src='https://w7.pngwing.com/pngs/786/126/png-transparent-logo-contracting-photography-logo-symbol.png'/>
+            <HeaderImg/>
             <h1>TRAIL</h1>
         </header>
     )
 }
-
+const HeaderImg = () => {
+    return (
+        <img
+            src='https://cdn-icons-png.flaticon.com/512/136/136436.png'/>        )
+}
 export default Header;

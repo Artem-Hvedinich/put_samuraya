@@ -2,12 +2,13 @@ import React from "react";
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Message/Message";
-import {dialogs} from "../../index";
-import {messages} from "../../index";
+import {MessagePageType} from "../../redax/state";
 
-const Dialogs = () => {
-    let dialogsElements = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElements = messages.map(m => <Messages messages={m.messages} id={m.id}/>);
+type DialogsPropsType = MessagePageType & {}
+
+const Dialogs = (props: DialogsPropsType) => {
+    let dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
+    let messagesElements = props.messages.map(m => <Messages messages={m.message} id={m.id}/>);
 
     return <div className={s.dialogs}>
         <div className={s.dialogsItems}>
@@ -15,8 +16,20 @@ const Dialogs = () => {
         </div>
         <div className={s.messages}>
             {messagesElements}
+            <TextareaButton/>
         </div>
-    </div>
+    </div>;
+}
+
+const TextareaButton = () => {
+    return (
+        <div>
+            <textarea></textarea>
+            <div>
+                <button>Add message</button>
+            </div>
+        </div>
+    )
 }
 
 export default Dialogs

@@ -1,7 +1,7 @@
 .header {
     grid-area: h;
-    border-radius: 40px;
-    background: linear-gradient(to right, rgba(0, 247, 255, 0.5), rgba(66, 255, 66, 0.5), rgba(217, 11, 11, 0.5));
+    border-radius: 13px;
+    background: linear-gradient(to right, rgba(0, 247, 255, 0.3), rgba(66, 255, 66, 0.3), rgba(217, 11, 11, 0.3));
     display: grid;
     grid-template-columns:1fr 3fr;
 }
@@ -12,7 +12,6 @@
 }
 
 .header img {
-    width: 100px;
-    border-radius: 80px;
+    width: 60px;
 }
 
