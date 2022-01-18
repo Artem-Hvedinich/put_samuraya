@@ -8,11 +8,12 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {PostType, StateType} from "./redax/state";
+import {PostType, StateType, updateNewPostText} from "./redax/state";
 
 type AppPropsType = {
     state: StateType
-    addPost:(message: string)=> void
+    addPost: (message: string) => void
+    updateNewPostText: (newPostText: string) => void
 }
 const App = (props: AppPropsType) => {
     return (
@@ -27,7 +28,10 @@ const App = (props: AppPropsType) => {
                             messages={props.state.messagesPage.messages}/>}/>
                         <Route path='/profile' element={<Profile
                             myPostData={props.state.myPostPage.myPostData}
-                            addPost={props.addPost}/>}/>
+                            addPost={props.addPost}
+                            updateNewPostText={updateNewPostText}
+                            newPostText={props.state.newPostText}
+                        />}/>
                         <Route path='/news' element={<News/>}/>
                         <Route path='/music' element={<Music/>}/>
                         <Route path='/setting' element={<Setting/>}/>

@@ -2,6 +2,7 @@ import {rerenderEntireTree} from "../render";
 
 export type StateType = {
     myPostPage: MyPostPageType
+    newPostText: string
     messagesPage: MessagePageType
 }
 
@@ -39,7 +40,11 @@ export let state: StateType = {
             {id: 1, message: 'Hi, how are you?', likesCount: 12},
             {id: 2, message: 'American idol', likesCount: 90},
         ],
+
     },
+
+    newPostText: 'Artem',
+
     messagesPage: {
         dialogs: [
             {id: 1, name: 'Dimych',}, //img:url()},
@@ -70,16 +75,17 @@ export let state: StateType = {
 }
 
 
-export let addPost = (messagePost: string) => {
-
+export let addPost = () => {
     let NewPost = {
         id: 3,
-        message: messagePost,
+        message: state.newPostText,
         likesCount: 0
     };
-
     state.myPostPage.myPostData.push(NewPost);
     rerenderEntireTree(state);
-
 }
 
+export let updateNewPostText = (newPostText: string) => {
+    state.newPostText = newPostText;
+    rerenderEntireTree(state);
+}

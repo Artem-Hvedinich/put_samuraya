@@ -6,7 +6,8 @@ import {MyPostPageType} from "../../../redax/state";
 
 type MyPostType = MyPostPageType & {
     addPost:(message: string)=> void
-
+    updateNewPostText: (newPostText: string) => void
+    newPostText: string
 };
 
 export const MyPosts = (props: MyPostType) => {
@@ -17,16 +18,19 @@ export const MyPosts = (props: MyPostType) => {
 
 
     const addPost = () => {
-        if (newPostElement.current) {
-            let text = newPostElement.current.value
-            props.addPost(text)
-            newPostElement.current.value= ''
-        }
+            props.addPost('')
+            props.updateNewPostText('')
     }
 
+    const onPostChange = () => {
+        let text = newPostElement?.current?.value
+        if(text){
+            props.updateNewPostText(text);
+        }
+    }
     return <div className={s.postsBlock}>
         <MyPostTitle/>
-        <textarea ref={newPostElement}></textarea>
+        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
         <div>
             <button onClick={addPost}>Add post</button>
         </div>
