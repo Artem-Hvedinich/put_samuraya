@@ -2,7 +2,7 @@ import React from "react";
 import s from './Profile.module.css'
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {addPost, MyPostPageType, updateNewPostText} from "../../redax/state";
+import {addPost, MyPostPageType, } from "../../redax/state";
 import message from "../Dialogs/Message/Message";
 
 type ProfileType = MyPostPageType & {

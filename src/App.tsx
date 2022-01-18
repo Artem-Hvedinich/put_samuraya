@@ -30,7 +30,7 @@ const App = (props: AppPropsType) => {
                             myPostData={props.state.myPostPage.myPostData}
                             addPost={props.addPost}
                             updateNewPostText={updateNewPostText}
-                            newPostText={props.state.newPostText}
+                            newPostText={props.state.myPostPage.newPostText}
                         />}/>
                         <Route path='/news' element={<News/>}/>
                         <Route path='/music' element={<Music/>}/>

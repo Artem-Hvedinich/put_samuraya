@@ -2,13 +2,14 @@ import {rerenderEntireTree} from "../render";
 
 export type StateType = {
     myPostPage: MyPostPageType
-    newPostText: string
     messagesPage: MessagePageType
 }
 
 //myPostPage
 export type MyPostPageType = {
     myPostData: Array<PostType>
+    newPostText: string
+
 }
 export type PostType = {
     id: number,
@@ -40,10 +41,10 @@ export let state: StateType = {
             {id: 1, message: 'Hi, how are you?', likesCount: 12},
             {id: 2, message: 'American idol', likesCount: 90},
         ],
-
+        newPostText: 'Artem',
     },
 
-    newPostText: 'Artem',
+
 
     messagesPage: {
         dialogs: [
@@ -78,7 +79,7 @@ export let state: StateType = {
 export let addPost = () => {
     let NewPost = {
         id: 3,
-        message: state.newPostText,
+        message: state.myPostPage.newPostText,
         likesCount: 0
     };
     state.myPostPage.myPostData.push(NewPost);
@@ -86,6 +87,6 @@ export let addPost = () => {
 }
 
 export let updateNewPostText = (newPostText: string) => {
-    state.newPostText = newPostText;
+    state.myPostPage.newPostText = newPostText;
     rerenderEntireTree(state);
 }
