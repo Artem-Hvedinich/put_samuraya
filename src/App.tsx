@@ -8,10 +8,10 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {PostType, StateType, updateNewPostText} from "./redax/state";
+import {store, StoreType,} from "./redax/state";
 
 type AppPropsType = {
-    state: StateType
+    store: StoreType
     addPost: (message: string) => void
     updateNewPostText: (newPostText: string) => void
 }
@@ -24,13 +24,13 @@ const App = (props: AppPropsType) => {
                 <div className={'app-wrapper-content'}>
                     <Routes>
                         <Route path='/dialogs' element={<Dialogs
-                            dialogs={props.state.messagesPage.dialogs}
-                            messages={props.state.messagesPage.messages}/>}/>
+                            dialogs={props.store._state.messagesPage.dialogs}
+                            messages={props.store._state.messagesPage.messages}/>}/>
                         <Route path='/profile' element={<Profile
-                            myPostData={props.state.myPostPage.myPostData}
+                            myPostData={props.store._state.myPostPage.myPostData}
                             addPost={props.addPost}
-                            updateNewPostText={updateNewPostText}
-                            newPostText={props.state.myPostPage.newPostText}
+                            updateNewPostText={store.updateNewPostText}
+                            newPostText={props.store._state.myPostPage.newPostText}
                         />}/>
                         <Route path='/news' element={<News/>}/>
                         <Route path='/music' element={<Music/>}/>

@@ -1,4 +1,12 @@
-import {rerenderEntireTree} from "../render";
+import myPosts from "../components/Profile/MyPosts/MyPosts";
+
+export type StoreType = {
+    _state: StateType
+    addPost: (newPostText: string) => void
+    updateNewPostText: (newPostText: string) => void
+    subscribe: (observer: any) => void
+    getState: () => void
+}
 
 export type StateType = {
     myPostPage: MyPostPageType
@@ -34,59 +42,61 @@ export type messageType = {
 }
 //messagesPage
 
+export let store: StoreType = {
 
-export let state: StateType = {
-    myPostPage: {
-        myPostData: [
-            {id: 1, message: 'Hi, how are you?', likesCount: 12},
-            {id: 2, message: 'American idol', likesCount: 90},
-        ],
-        newPostText: 'Artem',
+    _state: {
+        myPostPage: {
+            myPostData: [
+                {id: 1, message: 'Hi, how are you?', likesCount: 12},
+                {id: 2, message: 'American idol', likesCount: 90},
+            ],
+            newPostText: '',
+        },
+
+
+        messagesPage: {
+            dialogs: [
+                {id: 1, name: 'Dimych',}, //img:url()},
+                {id: 2, name: 'Andrey'},
+                {id: 3, name: 'Sveta'},
+                {id: 4, name: 'Sasha'},
+                {id: 5, name: 'Artem'},
+                {id: 6, name: 'Viktor'}
+            ],
+
+            messages: [
+                {id: 1, message: 'Hi'},
+                {id: 2, message: 'How a you'},
+                {id: 3, message: 'Artem?'},
+                {id: 4, message: 'Yo'},
+                {id: 5, message: 'Why?'},
+                {id: 6, message: 'Like'}
+            ],
+        },
     },
 
-
-
-    messagesPage: {
-        dialogs: [
-            {id: 1, name: 'Dimych',}, //img:url()},
-            {id: 2, name: 'Andrey'},
-            {id: 3, name: 'Sveta'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Artem'},
-            {id: 6, name: 'Viktor'}
-        ],
-
-        messages: [
-            {id: 1, message: 'Hi'},
-            {id: 2, message: 'How a you'},
-            {id: 3, message: 'Artem?'},
-            {id: 4, message: 'Yo'},
-            {id: 5, message: 'Why?'},
-            {id: 6, message: 'Like'}
-        ],
+    getState() {
+        return this._state
     },
-    // sidebarPage: [
-    //     {
-    //         img: (src: 'https://developer.android.com/guide/practices/ui_guidelines/images/NB_Icon_Mask_Shapes_Ext_02.gif?hl=de'),
-    //         name: 'Artem'
-    //     }
-    //     {img:, name: 'Kate'}
-    //     {img:, name: 'Dmitry'}
-    // ]
+
+    addPost() {
+        let NewPost = {
+            id: 3,
+            message: this._state.myPostPage.newPostText,
+            likesCount: 0
+        };
+        store._state.myPostPage.myPostData.push(NewPost);
+        rerenderEntireTree(this._state);
+    },
+    updateNewPostText(newPostText) {
+        this._state.myPostPage.newPostText = newPostText;
+        rerenderEntireTree(this._state);
+    },
+    subscribe(observer: any) {
+        rerenderEntireTree = observer;
+    }
+
 }
 
-
-export let addPost = () => {
-    let NewPost = {
-        id: 3,
-        message: state.myPostPage.newPostText,
-        likesCount: 0
-    };
-    state.myPostPage.myPostData.push(NewPost);
-    rerenderEntireTree(state);
-}
-
-export let updateNewPostText = (newPostText: string) => {
-    state.myPostPage.newPostText = newPostText;
-    rerenderEntireTree(state);
+let rerenderEntireTree = (store: StateType) => {
 }

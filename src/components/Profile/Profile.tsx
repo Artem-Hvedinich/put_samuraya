@@ -2,7 +2,7 @@ import React from "react";
 import s from './Profile.module.css'
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {addPost, MyPostPageType, } from "../../redax/state";
+import {MyPostPageType, store,} from "../../redax/state";
 import message from "../Dialogs/Message/Message";
 
 type ProfileType = MyPostPageType & {
@@ -14,7 +14,7 @@ type ProfileType = MyPostPageType & {
 const Profile = (props: ProfileType) => {
     return <div>
         <ProfileInfo/>
-        <MyPosts myPostData={props.myPostData} addPost={addPost}
+        <MyPosts myPostData={props.myPostData} addPost={store.addPost}
                  updateNewPostText={props.updateNewPostText}
 
                  newPostText={props.newPostText}
