@@ -2,6 +2,7 @@
     grid-area: n;
     font-size: 20px ;
     text-align: center;
+    padding: 15px;
 }
 
 .item a{

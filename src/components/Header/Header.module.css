@@ -4,14 +4,16 @@
     background: linear-gradient(to right, rgba(0, 247, 255, 0.3), rgba(66, 255, 66, 0.3), rgba(217, 11, 11, 0.3));
     display: grid;
     grid-template-columns:1fr 3fr;
+    padding: 5px;
 }
 
 .header h1 {
     display: grid;
     justify-content: center;
+    margin: auto;
 }
 
 .header img {
-    width: 60px;
+    width: 50px;
 }
 

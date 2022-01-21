@@ -5,8 +5,9 @@ import {MyPostTitle} from "./Post/Post";
 import {MyPostPageType} from "../../../redax/state";
 
 type MyPostType = MyPostPageType & {
-    addPost:(message: string)=> void
-    updateNewPostText: (newPostText: string) => void
+    // addPost: () => void
+    // updateNewPostText: (newPostText: string) => void
+    dispatch: (action: any) => void
     newPostText: string
 };
 
@@ -18,14 +19,14 @@ export const MyPosts = (props: MyPostType) => {
 
 
     const addPost = () => {
-            props.addPost('')
-            props.updateNewPostText('')
+        props.dispatch({type: 'ADD-POST'})
+        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newPostText:''});
     }
 
     const onPostChange = () => {
         let text = newPostElement?.current?.value
-        if(text){
-            props.updateNewPostText(text);
+        if (text) {
+            props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newPostText:text});
         }
     }
     return <div className={s.postsBlock}>

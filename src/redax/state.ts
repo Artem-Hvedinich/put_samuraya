@@ -2,10 +2,10 @@ import myPosts from "../components/Profile/MyPosts/MyPosts";
 
 export type StoreType = {
     _state: StateType
-    addPost: (newPostText: string) => void
-    updateNewPostText: (newPostText: string) => void
     subscribe: (observer: any) => void
-    getState: () => void
+    getState: () => StateType
+    callSubscriber: (_state: StateType) => void
+    dispatch: (action: any) => void
 }
 
 export type StateType = {
@@ -13,11 +13,11 @@ export type StateType = {
     messagesPage: MessagePageType
 }
 
+
 //myPostPage
 export type MyPostPageType = {
     myPostData: Array<PostType>
     newPostText: string
-
 }
 export type PostType = {
     id: number,
@@ -75,28 +75,32 @@ export let store: StoreType = {
         },
     },
 
+    callSubscriber(_state: StateType) {
+        console.log('Nice')
+    },
+
+
     getState() {
         return this._state
     },
-
-    addPost() {
-        let NewPost = {
-            id: 3,
-            message: this._state.myPostPage.newPostText,
-            likesCount: 0
-        };
-        store._state.myPostPage.myPostData.push(NewPost);
-        rerenderEntireTree(this._state);
-    },
-    updateNewPostText(newPostText) {
-        this._state.myPostPage.newPostText = newPostText;
-        rerenderEntireTree(this._state);
-    },
     subscribe(observer: any) {
-        rerenderEntireTree = observer;
-    }
-
+        this.callSubscriber = observer;
+    },
+    dispatch(action: any) {
+        if (action.type === 'ADD-POST') {
+            let NewPost = {
+                id: 3,
+                message: this._state.myPostPage.newPostText,
+                likesCount: 0
+            };
+            this._state.myPostPage.myPostData.push(NewPost);
+            this.callSubscriber(this._state);
+            console.log(NewPost)
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.myPostPage.newPostText = action.newPostText;
+            this.callSubscriber(this._state);
+        }
+    },
 }
 
-let rerenderEntireTree = (store: StateType) => {
-}
+

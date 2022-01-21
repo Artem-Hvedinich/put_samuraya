@@ -2,17 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import {StoreType,} from "./redax/state";
+import {StateType, StoreType,} from "./redax/state";
 import reportWebVitals from "./reportWebVitals";
 import {store} from "./redax/state";
 
-export let rerenderEntireTree = (store: StoreType) => {
+export let callSubscriber: (state:StateType) => void = (state) => {
     ReactDOM.render(
-        <App store={store} addPost={store.addPost} updateNewPostText={store.updateNewPostText}/>,
+        <App state={state} dispatch={store.dispatch.bind(store)}/>,
         document.getElementById("root"));
 };
-rerenderEntireTree(store);
-store.subscribe(rerenderEntireTree);
+callSubscriber(store.getState());
+store.subscribe(callSubscriber);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
