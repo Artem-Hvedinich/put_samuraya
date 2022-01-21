@@ -2,7 +2,8 @@ import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {MyPostTitle} from "./Post/Post";
-import {MyPostPageType} from "../../../redax/state";
+import {addPostActionCreator, MyPostPageType, updateNewPostTextActionCreator} from "../../../redax/state";
+import {text} from "stream/consumers";
 
 type MyPostType = MyPostPageType & {
     // addPost: () => void
@@ -10,6 +11,7 @@ type MyPostType = MyPostPageType & {
     dispatch: (action: any) => void
     newPostText: string
 };
+
 
 export const MyPosts = (props: MyPostType) => {
 
@@ -19,14 +21,14 @@ export const MyPosts = (props: MyPostType) => {
 
 
     const addPost = () => {
-        props.dispatch({type: 'ADD-POST'})
-        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newPostText:''});
+        props.dispatch(addPostActionCreator())
+        props.dispatch(updateNewPostTextActionCreator(''));
     }
 
     const onPostChange = () => {
         let text = newPostElement?.current?.value
         if (text) {
-            props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newPostText:text});
+            props.dispatch(updateNewPostTextActionCreator(text));
         }
     }
     return <div className={s.postsBlock}>

@@ -40,6 +40,10 @@ export type messageType = {
     id: number,
     message: string,
 }
+
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const ADD_POST = 'ADD-POST';
+
 //messagesPage
 
 export let store: StoreType = {
@@ -103,4 +107,15 @@ export let store: StoreType = {
     },
 }
 
+export const addPostActionCreator = () => {
+    return {
+        type: ADD_POST
+    }
+}
 
+export const updateNewPostTextActionCreator = (text: string) => {
+
+    return {
+        type: UPDATE_NEW_POST_TEXT, newPostText: text
+    }
+}
