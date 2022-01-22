@@ -2,8 +2,8 @@ import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {MyPostTitle} from "./Post/Post";
-import {addPostActionCreator, MyPostPageType, updateNewPostTextActionCreator} from "../../../redax/state";
-import {text} from "stream/consumers";
+import {MyPostPageType,} from "../../../redax/state";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redax/profileReducer"
 
 type MyPostType = MyPostPageType & {
     // addPost: () => void
@@ -26,14 +26,15 @@ export const MyPosts = (props: MyPostType) => {
     }
 
     const onPostChange = () => {
-        let text = newPostElement?.current?.value
+        let text = newPostElement.current?.value
         if (text) {
             props.dispatch(updateNewPostTextActionCreator(text));
         }
     }
     return <div className={s.postsBlock}>
         <MyPostTitle/>
-        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
+        <textarea placeholder='Enter You Comment' onChange={onPostChange} ref={newPostElement}
+                  value={props.newPostText}/>
         <div>
             <button onClick={addPost}>Add post</button>
         </div>

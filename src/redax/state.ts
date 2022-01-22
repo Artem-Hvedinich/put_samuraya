@@ -1,4 +1,6 @@
 import myPosts from "../components/Profile/MyPosts/MyPosts";
+import {profileReducer} from "./profileReducer";
+import {dialogsReducer} from "./dialogsReducer";
 
 export type StoreType = {
     _state: StateType
@@ -30,6 +32,7 @@ export type PostType = {
 export type MessagePageType = {
     dialogs: Array<dialogsType>
     messages: Array<messageType>
+    newMessageBody: string
 }
 export type dialogsType = {
     id: number,
@@ -40,9 +43,6 @@ export type messageType = {
     id: number,
     message: string,
 }
-
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_POST = 'ADD-POST';
 
 //messagesPage
 
@@ -76,6 +76,7 @@ export let store: StoreType = {
                 {id: 5, message: 'Why?'},
                 {id: 6, message: 'Like'}
             ],
+            newMessageBody: ''
         },
     },
 
@@ -91,31 +92,8 @@ export let store: StoreType = {
         this.callSubscriber = observer;
     },
     dispatch(action: any) {
-        if (action.type === 'ADD-POST') {
-            let NewPost = {
-                id: 3,
-                message: this._state.myPostPage.newPostText,
-                likesCount: 0
-            };
-            this._state.myPostPage.myPostData.push(NewPost);
-            this.callSubscriber(this._state);
-            console.log(NewPost)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.myPostPage.newPostText = action.newPostText;
-            this.callSubscriber(this._state);
-        }
-    },
-}
-
-export const addPostActionCreator = () => {
-    return {
-        type: ADD_POST
-    }
-}
-
-export const updateNewPostTextActionCreator = (text: string) => {
-
-    return {
-        type: UPDATE_NEW_POST_TEXT, newPostText: text
+        this._state.myPostPage = profileReducer(this._state.myPostPage, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        this.callSubscriber(this._state);
     }
 }
