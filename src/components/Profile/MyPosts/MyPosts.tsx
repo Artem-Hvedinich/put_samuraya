@@ -2,13 +2,12 @@ import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {MyPostTitle} from "./Post/Post";
-import {MyPostPageType,} from "../../../redax/state";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redax/profileReducer"
+import {PostType} from "../../../redax/store";
 
-type MyPostType = MyPostPageType & {
-    // addPost: () => void
-    // updateNewPostText: (newPostText: string) => void
-    dispatch: (action: any) => void
+type MyPostType = {
+    addPost: () => void
+    updateNewPostText: (text: string) => void
+    myPostData: Array<PostType>
     newPostText: string
 };
 
@@ -16,32 +15,28 @@ type MyPostType = MyPostPageType & {
 export const MyPosts = (props: MyPostType) => {
 
     let myPostElements = props.myPostData.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
-
     let newPostElement = React.createRef<HTMLTextAreaElement>()
-
-
-    const addPost = () => {
-        props.dispatch(addPostActionCreator())
-        props.dispatch(updateNewPostTextActionCreator(''));
-    }
-
+    const onAddPost = () => props.addPost()
     const onPostChange = () => {
         let text = newPostElement.current?.value
         if (text) {
-            props.dispatch(updateNewPostTextActionCreator(text));
+            props.updateNewPostText(text)
         }
     }
-    return <div className={s.postsBlock}>
-        <MyPostTitle/>
-        <textarea placeholder='Enter You Comment' onChange={onPostChange} ref={newPostElement}
-                  value={props.newPostText}/>
-        <div>
-            <button onClick={addPost}>Add post</button>
-        </div>
-        <div>
-            {myPostElements}
-        </div>
-    </div>
-}
 
-export default MyPosts
+    return (
+        <div className={s.postsBlock}>
+            <MyPostTitle/>
+            <textarea value={props.newPostText}
+                      placeholder='Enter You Comment'
+                      onChange={onPostChange}
+                      ref={newPostElement}
+            />
+            <div>
+                <button onClick={onAddPost}>Add post</button>
+            </div>
+            <div>
+                {myPostElements}
+            </div>
+        </div>)
+}

@@ -1,4 +1,3 @@
-import myPosts from "../components/Profile/MyPosts/MyPosts";
 import {profileReducer} from "./profileReducer";
 import {dialogsReducer} from "./dialogsReducer";
 

@@ -3,44 +3,36 @@ import './App.css'
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
-import Dialogs from "./components/Dialogs/Dialogs";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {StateType} from "./redax/state";
+import {Routes, Route, Navigate} from "react-router-dom";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
-type AppPropsType = {
-    state: StateType
-    dispatch: (action: any) => void
-    // addPost: () => void
-    // updateNewPostText: (newPostText: string) => void
+export const PATH = {
+    Profile: '/profile',
+    Dialogs: '/dialogs',
+    News: '/news',
+    Music: '/music',
+    Setting: '/setting'
 }
-const App = (props: AppPropsType) => {
+
+const App = () => {
     return (
-        <BrowserRouter>
-            <div className='app-wrapper'>
-                <Header/>
-                <Navbar/>
-                <div className={'app-wrapper-content'}>
-                    <Routes>
-                        <Route path='/dialogs' element={<Dialogs
-                            dialogs={props.state.messagesPage.dialogs}
-                            messages={props.state.messagesPage.messages}
-                            newMessageBody={props.state.messagesPage.newMessageBody}
-                            dispatch={props.dispatch}
-                        />}/>
-                        <Route path='/profile' element={<Profile
-                            myPostData={props.state.myPostPage.myPostData}
-                            dispatch={props.dispatch}
-                            newPostText={props.state.myPostPage.newPostText}/>}/>
-                        <Route path='/news' element={<News/>}/>
-                        <Route path='/music' element={<Music/>}/>
-                        <Route path='/setting' element={<Setting/>}/>
-                    </Routes>
-                </div>
+        <div className='app-wrapper'>
+            <Header/>
+            <Navbar/>
+            <div className={'app-wrapper-content'}>
+                <Routes>
+                    <Route path={'/'} element={<Navigate to={PATH.Profile}/>}/>
+                    <Route path={PATH.Profile} element={<Profile/>}/>
+                    <Route path={PATH.Dialogs} element={<DialogsContainer/>}/>
+                    <Route path={PATH.News} element={<News/>}/>
+                    <Route path={PATH.Music} element={<Music/>}/>
+                    <Route path={PATH.Setting} element={<Setting/>}/>
+                </Routes>
             </div>
-        </BrowserRouter>
+        </div>
     )
 }
 
