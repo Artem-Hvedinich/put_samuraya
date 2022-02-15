@@ -2,7 +2,7 @@ import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {MyPostTitle} from "./Post/Post";
-import {PostType} from "../../../redax/store";
+import {PostType} from "../../../redax/profileReducer";
 
 type MyPostType = {
     addPost: () => void

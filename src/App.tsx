@@ -8,10 +8,13 @@ import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {Routes, Route, Navigate} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {Users} from "./components/Users/Users";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 export const PATH = {
     Profile: '/profile',
     Dialogs: '/dialogs',
+    Users: '/users',
     News: '/news',
     Music: '/music',
     Setting: '/setting'
@@ -26,6 +29,7 @@ const App = () => {
                 <Routes>
                     <Route path={'/'} element={<Navigate to={PATH.Profile}/>}/>
                     <Route path={PATH.Profile} element={<Profile/>}/>
+                    <Route path={PATH.Users} element={<UsersContainer/>}/>
                     <Route path={PATH.Dialogs} element={<DialogsContainer/>}/>
                     <Route path={PATH.News} element={<News/>}/>
                     <Route path={PATH.Music} element={<Music/>}/>

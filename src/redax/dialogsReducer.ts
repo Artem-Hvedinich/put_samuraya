@@ -1,9 +1,22 @@
-import {dialogsType, messageType} from "./store"
-
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY'
 const SEND_MESSAGE = 'SEND_MESSAGE'
 
-let initialState = {
+
+export type MessagePageType = {
+    dialogs: Array<dialogsType>
+    messages: Array<messageType>
+    newMessageBody: string
+}
+export type dialogsType = {
+    id: number,
+    name: string,
+    // img: string,
+}
+export type messageType = {
+    id: number,
+    message: string,
+}
+let initialState: MessagePageType = {
     dialogs: [
         {id: 1, name: 'Dimych',}, //img:url()},
         {id: 2, name: 'Andrey'},
@@ -28,16 +41,16 @@ export const dialogsReducer = (state = initialState,
                                action: { type: string; body: string }) => {
     switch (action.type) {
         case 'UPDATE_NEW_MESSAGE_BODY': {
-            let stateCopy = {...state}
-            stateCopy.newMessageBody = action.body
-            return stateCopy;
+            return {...state, newMessageBody: action.body}
+
         }
         case 'SEND_MESSAGE': {
-            let stateCopy = {...state}
-            let body = stateCopy.newMessageBody
-            stateCopy.newMessageBody = ''
-            stateCopy.messages.push({id: 7, message: body})
-            return stateCopy;
+            let body = state.newMessageBody
+            return {
+                ...state,
+                newMessageBody: '',
+                messages: [...state.messages, {id: 7, message: body}]
+            }
         }
     }
     return state

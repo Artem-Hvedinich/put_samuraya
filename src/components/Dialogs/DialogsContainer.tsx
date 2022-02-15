@@ -1,9 +1,9 @@
 import React from "react";
 import {sendMessageCreator, updateMewMessageBodyCreator} from "../../redax/dialogsReducer";
 import {Dialogs} from "./Dialogs";
-import {StateType} from "../../redax/store";
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
+import {StateType} from "../../redax/redaxStore";
 
 let mapStateToProps = (state: StateType) => {
     return {

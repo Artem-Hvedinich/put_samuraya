@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Message/Message";
-import {dialogsType, MessagePageType, messageType,} from "../../redax/store";
+import {MessagePageType} from "../../redax/dialogsReducer";
 
 type DialogsPropsType = {
     updateMewMessageBody: (body: string) => void
@@ -11,8 +11,8 @@ type DialogsPropsType = {
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
-    let dialogsElements = props.messagesPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElements = props.messagesPage.messages.map(m => <Messages messages={m.message} id={m.id}/>);
+    let dialogsElements = props.messagesPage.dialogs.map(d => <DialogItem key={d.id} id={d.id} name={d.name}/>);
+    let messagesElements = props.messagesPage.messages.map(m => <Messages key={m.id} id={m.id} messages={m.message}/>);
     let newMessageBody = props.messagesPage.newMessageBody;
 
     let onSendMessageClick = () => {
