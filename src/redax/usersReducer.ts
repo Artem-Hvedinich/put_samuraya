@@ -53,6 +53,7 @@ let initialState: UsersPageType = {
     //         location: {city: 'Minsk', country: 'Belarus'}
     //     },
     ],
+
 }
 
 export const usersReducer = (state = initialState, action: any) => {
