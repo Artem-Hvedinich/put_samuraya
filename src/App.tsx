@@ -8,7 +8,6 @@ import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {Routes, Route, Navigate} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {Users} from "./components/Users/Users";
 import {UsersContainer} from "./components/Users/UsersContainer";
 
 export const PATH = {

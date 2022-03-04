@@ -2,6 +2,8 @@ import React from 'react';
 import s from './Users.module.css'
 import {UserType} from "../../redax/usersReducer";
 import {Button} from "@mui/material";
+import axios from "axios";
+import userPhoto from '../../assets/images/users_images.png'
 
 type PropsUsersType = {
     users: Array<UserType>
@@ -12,40 +14,9 @@ type PropsUsersType = {
 
 export const Users = (props: PropsUsersType) => {
     if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-                follower: false,
-                fullName: 'Artem',
-                status: 'Hi, how are you?',
-                location: {city: 'Brest', country: 'Belarus'}
-            },
-            {
-                id: 2,
-                photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-                follower: true,
-                fullName: 'Met',
-                status: 'Hi, how are you?',
-                location: {city: 'Philadelphia', country: 'USA'}
-            },
-            {
-                id: 3,
-                photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-                follower: false,
-                fullName: 'Dima',
-                status: 'Hi, how are you?',
-                location: {city: 'Kiev', country: 'Ukraine'}
-            },
-            {
-                id: 4,
-                photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-                follower: true,
-                fullName: 'Tim',
-                status: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                location: {city: 'Minsk', country: 'Belarus'}
-            },
-        ])
+        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(r => {
+            props.setUsers(r.data.items)
+        })
     }
 
     return (
@@ -54,8 +25,8 @@ export const Users = (props: PropsUsersType) => {
             {props.users.map(u => <div key={u.id} className={s.body_style}>
 
                 <div className={s.block_follow}>
-                    <img src={u.photoUrl} className={s.img}/>
-                    <div>{u.fullName}</div>
+                    <img src={u.photos.small !== null ? u.photos.small : userPhoto} className={s.img}/>
+                    <div>{u.name}</div>
                     <div>
                         {u.follower
                             ? <Button variant="contained" size={"small"} color={'secondary'} onClick={() => {
@@ -74,8 +45,8 @@ export const Users = (props: PropsUsersType) => {
                         <div>{u.status}</div>
                     </div>
                     <div className={s.block_country}>
-                        <div>{u.location.country}</div>
-                        <div>{u.location.city}</div>
+                        <div>{'u.location.country'}</div>
+                        <div>{'u.location.city'}</div>
                     </div>
                 </div>
             </div>)}
