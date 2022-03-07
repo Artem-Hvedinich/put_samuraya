@@ -1,18 +1,27 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Users} from "./Users";
+import {Users} from './Users'
 import {StateType} from "../../redax/redaxStore";
 import {Dispatch} from "redux";
 import {followAC, setUsersAC, unfollowAC, UserType} from "../../redax/usersReducer";
 
+export type MSTP = {
+    users:  Array<UserType>
+}
 
-let mapStateToProps = (state: StateType) => {
+let mapStateToProps = (state: StateType): MSTP => {
     return {
         users: state.usersPage.users
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch) => {
+export type MDTP = {
+    follow: (UsersId: number) => void
+    unfollow: (UsersId: number) => void
+    setUsers: (users: Array<UserType>) => void
+}
+
+let mapDispatchToProps = (dispatch: Dispatch): MDTP => {
     return {
         follow: (UsersId: number) => {
             dispatch(followAC(UsersId))
@@ -25,5 +34,6 @@ let mapDispatchToProps = (dispatch: Dispatch) => {
         }
     }
 }
+
 
 export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)

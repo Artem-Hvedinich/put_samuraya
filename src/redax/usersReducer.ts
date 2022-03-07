@@ -9,6 +9,7 @@ export type UserType = {
     location: LocationType
     photos: any
 }
+
 export type LocationType = {
     city: string,
     country: string

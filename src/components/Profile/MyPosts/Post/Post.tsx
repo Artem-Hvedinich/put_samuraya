@@ -4,13 +4,16 @@ import s from './Post.module.css'
 type PostPropsType = {
     message: string
     likesCount: number
+    img: string
 }
 
 const Post = (props: PostPropsType) => {
     return (
-        <div>
+        <div className={s.container}>
             <div>
-                <MyPostImg/>
+                <div className={s.item}>
+                    <img src={props.img}/>
+                </div>
                 {props.message}
             </div>
             <div>
@@ -19,19 +22,6 @@ const Post = (props: PostPropsType) => {
             </div>
         </div>
     );
-}
-
-export function MyPostTitle() {
-    return <div>
-        <h2>My post</h2>
-    </div>
-}
-
-const MyPostImg = () => {
-    return <div className={s.item}>
-        <img
-            src='https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'/>
-    </div>
 }
 
 export default Post;
