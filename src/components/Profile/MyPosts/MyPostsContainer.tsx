@@ -3,7 +3,7 @@ import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../red
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {StateType} from "../../../redax/redaxStore";
+import {StateType} from "../../../redax/reduxStore";
 
 let mapStateToProps = (state: StateType) => {
     return {

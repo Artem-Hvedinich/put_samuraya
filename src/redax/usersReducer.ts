@@ -1,6 +1,12 @@
 export type UsersPageType = {
     users: Array<UserType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
 }
+
+
 export type UserType = {
     id: number,
     follower: boolean,
@@ -16,41 +22,11 @@ export type LocationType = {
 }
 
 let initialState: UsersPageType = {
-    users: [
-        // {
-        //     id: 1,
-        //     photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-        //     follower: false,
-        //     fullName: 'Artem',
-        //     status: 'Hi, how are you?',
-        //     location: {city: 'Brest', country: 'Belarus'}
-        // },
-        // {
-        //     id: 2,
-        //     photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-        //     follower: true,
-        //     fullName: 'Met',
-        //     status: 'Hi, how are you?',
-        //     location: {city: 'Philadelphia', country: 'USA'}
-        // },
-        // {
-        //     id: 3,
-        //     photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-        //     follower: false,
-        //     fullName: 'Dima',
-        //     status: 'Hi, how are you?',
-        //     location: {city: 'Kiev', country: 'Ukraine'}
-        // },
-        // {
-        //     id: 4,
-        //     photoUrl: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
-        //     follower: true,
-        //     fullName: 'Tim',
-        //     status: 'Hi, how are you?',
-        //     location: {city: 'Minsk', country: 'Belarus'}
-        // },
-    ],
-
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1,
+    isFetching: true,
 }
 
 export const usersReducer = (state = initialState, action: any) => {
@@ -69,7 +45,13 @@ export const usersReducer = (state = initialState, action: any) => {
             }
         }
         case 'SET_USERS': {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        }
+        case 'SET_CURRENT_PAGE': {
+            return {...state, currentPage: action.currentPage}
+        }
+        case 'SET_USERS_TOTAL_COUNT': {
+            return {...state, totalUsersCount: action.totalCount}
         }
     }
     return state
@@ -78,3 +60,5 @@ export const usersReducer = (state = initialState, action: any) => {
 export const followAC = (UserId: number) => ({type: 'FOLLOW', UserId})
 export const unfollowAC = (UserId: number) => ({type: 'UNFOLLOW', UserId})
 export const setUsersAC = (users: Array<UserType>) => ({type: 'SET_USERS', users})
+export const setCurrentPageAC = (currentPage: number) => ({type: 'SET_CURRENT_PAGE', currentPage})
+export const setTotalUsersCountAC = (totalCount: number) => ({type: 'SET_USERS_TOTAL_COUNT', totalCount})

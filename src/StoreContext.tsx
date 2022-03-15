@@ -1,5 +1,5 @@
 import React from "react";
-import {AppStoreType, DispatchType} from "./redax/redaxStore";
+import {AppStoreType, DispatchType} from "./redax/reduxStore";
 
 export const StoreContext = React.createContext<Partial<AppStoreType | DispatchType>>({})
 

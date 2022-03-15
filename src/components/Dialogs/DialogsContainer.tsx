@@ -3,7 +3,7 @@ import {sendMessageCreator, updateMewMessageBodyCreator} from "../../redax/dialo
 import {Dialogs} from "./Dialogs";
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
-import {StateType} from "../../redax/redaxStore";
+import {StateType} from "../../redax/reduxStore";
 
 let mapStateToProps = (state: StateType) => {
     return {
