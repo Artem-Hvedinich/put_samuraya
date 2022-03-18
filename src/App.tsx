@@ -2,16 +2,16 @@ import React from "react";
 import './App.css'
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
-import Profile from "./components/Profile/Profile";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {Routes, Route, Navigate} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 export const PATH = {
-    Profile: '/profile',
+    Profile: '/profile/:userId',
     Dialogs: '/dialogs',
     Users: '/users',
     News: '/news',
@@ -27,7 +27,7 @@ const App = () => {
             <div className={'app-wrapper-content'}>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={PATH.Profile}/>}/>
-                    <Route path={PATH.Profile} element={<Profile/>}/>
+                    <Route path={PATH.Profile} element={<ProfileContainer/>}/>
                     <Route path={PATH.Users} element={<UsersContainer/>}/>
                     <Route path={PATH.Dialogs} element={<DialogsContainer/>}/>
                     <Route path={PATH.News} element={<News/>}/>

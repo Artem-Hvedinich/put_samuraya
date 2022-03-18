@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 import {PostType} from "../../../redax/profileReducer";
@@ -12,17 +12,17 @@ type MyPostType = {
 
 
 export const MyPosts = (props: MyPostType) => {
-    let myPostElements = props.myPostData.map(p => <Post message={p.message} likesCount={p.likesCount} img={p.img}/>)
+    let myPostElements = props.myPostData.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}
+                                                         img={p.img}/>)
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => props.addPost()
     const onPostChange = () => {
         let text = newPostElement.current?.value
-        if (text ) {
+        if (text) {
             props.updateNewPostText(text)
         }
     }
-
 
 
     return (

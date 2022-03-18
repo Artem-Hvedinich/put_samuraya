@@ -3,6 +3,9 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/users_images.png";
 import {Button} from "@mui/material";
 import {UserType} from "../../redax/usersReducer";
+import {NavLink} from "react-router-dom";
+import {PATH} from "../../App";
+import {log} from "util";
 
 type PropsUsersType = {
     totalUsersCount: number
@@ -15,9 +18,10 @@ type PropsUsersType = {
 }
 
 export const Users = (props: PropsUsersType) => {
-    // let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize - 3551)
     let pages = []
-    for (let i = 1; i <= 25; i++) {
+    console.log(pagesCount)
+    for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
     return (
@@ -37,8 +41,10 @@ export const Users = (props: PropsUsersType) => {
                 <div key={u.id} className={s.body_style}>
 
                     <div className={s.block_follow}>
-                        <img src={u.photos.small !== null ? u.photos.small : userPhoto} className={s.img}
-                             alt={u.photos.small}/>
+                        <NavLink to={PATH.Profile+'/' + u.id}>
+                            <img src={u.photos.small !== null ? u.photos.small : userPhoto} className={s.img}
+                                 alt={u.photos.small}/>
+                        </NavLink>
                         <div>{u.name}</div>
                         <div>
                             {u.follower
@@ -54,7 +60,6 @@ export const Users = (props: PropsUsersType) => {
 
                     <div className={s.right_block}>
                         <div className={s.block_users}>
-
                             <div>{u.status}</div>
                         </div>
                         <div className={s.block_country}>

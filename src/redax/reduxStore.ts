@@ -18,3 +18,5 @@ let rootReducer = combineReducers({
 export let store = createStore(rootReducer)
 export type DispatchType = ReturnType<typeof rootReducer>
 export type AppStoreType = ReturnType<typeof rootReducer>
+// @ts-ignore
+window.store = store;
