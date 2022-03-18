@@ -1,38 +1,59 @@
 import {v1} from "uuid";
-import {ProfileType} from "../components/Profile/ProfileContainer";
 
 export type MyPostPageType = {
     myPostData: Array<PostType>
     newPostText: string
-    profile: ProfileType | null
+    profile: ProfileType
 }
 export type PostType = {
-    id: number,
+    id: string,
     message: string,
     likesCount: number
     img: string
 }
+export type ProfileType = {
+    aboutMe?: string
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    contacts?: {
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
+        mainLink: string
+    }
+    photos?: {
+        small?: string
+        large?: string
+    }
+}
+
 
 let initialState: MyPostPageType = {
     myPostData: [
         {
-            id: 1,
+            id: v1(),
             message: 'Hi, how are you?',
             likesCount: 12,
             img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
         },
         {
-            id: 2,
+            id: v1(),
             message: 'American idol',
             likesCount: 90,
             img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
         },
     ],
     newPostText: '',
-    profile: null,
+    profile: {},
 }
 
-export const profileReducer = (state = initialState, action: any) => {
+export const profileReducer = (state = initialState, action: any): MyPostPageType => {
 
     switch (action.type) {
         case 'ADD_POST': {
@@ -59,7 +80,7 @@ export const profileReducer = (state = initialState, action: any) => {
             }
         }
     }
-    return state
+    return {...state}
 }
 
 export const addPostActionCreator = () => ({type: 'ADD_POST'})

@@ -11,7 +11,7 @@ import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 export const PATH = {
-    Profile: '/profile/:userId',
+    Profile: '/profile',
     Dialogs: '/dialogs',
     Users: '/users',
     News: '/news',
@@ -27,7 +27,7 @@ const App = () => {
             <div className={'app-wrapper-content'}>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={PATH.Profile}/>}/>
-                    <Route path={PATH.Profile} element={<ProfileContainer/>}/>
+                    <Route path={PATH.Profile + "/:userId"} element={<ProfileContainer/>}/>
                     <Route path={PATH.Users} element={<UsersContainer/>}/>
                     <Route path={PATH.Dialogs} element={<DialogsContainer/>}/>
                     <Route path={PATH.News} element={<News/>}/>

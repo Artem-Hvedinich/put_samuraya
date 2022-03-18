@@ -1,9 +1,17 @@
-.descriptionsBlock{
-    padding: 10px;
-    background-color: rgba(214, 254, 255, 0.14);
+.container {
+    display: flex;
+    border: 1px solid;
 }
 
-.item img{
-    width: 100%;
-    opacity: 75%;
+.avatar {
+    border-radius: 50px;
+}
+
+.info {
+    margin-left: 10px;
+}
+
+.url {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px;
 }

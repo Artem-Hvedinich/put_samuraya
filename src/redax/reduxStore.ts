@@ -3,11 +3,9 @@ import {MyPostPageType, profileReducer} from "./profileReducer";
 import {dialogsReducer, MessagePageType} from "./dialogsReducer";
 import {UsersPageType, usersReducer} from "./usersReducer";
 
-export type StateType = {
-    myPostPage: MyPostPageType
-    messagesPage: MessagePageType
-    usersPage: UsersPageType
-}
+export type StateType =
+    ReturnType<typeof rootReducer>
+
 
 let rootReducer = combineReducers({
     myPostPage: profileReducer,

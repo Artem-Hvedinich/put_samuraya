@@ -2,44 +2,18 @@ import React, {useEffect} from 'react';
 import Profile from "./Profile";
 import axios from "axios";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redax/profileReducer";
+import {MyPostPageType, PostType, ProfileType, setUserProfile} from "../../redax/profileReducer";
 import {useParams} from "react-router-dom";
+import {StateType} from "../../redax/reduxStore";
 
 
-export type ProfileType = {
-    userId?: number
-    lookingForAJob?: boolean
-    lookingForAJobDescription?: string
-    fullName?: string
-    contacts?: {
-        github: string
-        vk: string
-        facebook: string
-        instagram: string
-        twitter: string
-        website: string
-        youtube: string
-        mainLink: string
-    }
-    photos?: {
-        small?: string
-        large?: string
-    }
-}
-type MapStatePropsType = {
-    profile: ProfileType
-}
 type MapDispatchPropsType = {
     setUserProfile: (profile: ProfileType) => void
 }
-// type Id = {
-//     userId: string
-// }
-
-type OnePropsType = MapDispatchPropsType & MapStatePropsType
-type PropsType = OnePropsType
+type PropsType = MapDispatchPropsType & MyPostPageType
 
 export function ProfileApiComponent(props: PropsType) {
+
     let {userId} = useParams<{ userId: string }>()
     console.log('userId', userId)
     useEffect(() => {
@@ -53,10 +27,14 @@ export function ProfileApiComponent(props: PropsType) {
     return <Profile profile={props.profile}/>
 }
 
-let mapStateToProps = (state: any) => ({
-    profile: state.myPostPage.profile
-})
-
+let mapStateToProps = (state: StateType) => {
+    return ({
+            myPostData: state.myPostPage.myPostData,
+            newPostText: state.myPostPage.newPostText,
+            profile: state.myPostPage.profile
+        }
+    )
+}
 
 export const ProfileContainer = connect(mapStateToProps, {setUserProfile})
 (ProfileApiComponent)
