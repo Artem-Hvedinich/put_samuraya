@@ -1,16 +1,29 @@
 .nav {
-    grid-area: n;
-    font-size: 20px ;
-    text-align: center;
-    padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
-.item a{
+.active,
+.anActive {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    height: 30px;
+    padding-left: 30px;
     text-decoration: none;
-    color: #9bd99b;
-
+    color: black;
+    margin-right: 10px;
 }
 
-.sidebare{
+.active,
+.anActive:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    box-shadow: 0 0 2px black;
+    font-size: 18px;
+}
+
+.sidebare {
+    width: 100%;
     margin-top: 40px;
 }

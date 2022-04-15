@@ -1,40 +1,38 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
-import {MyPostPageType, PostType, ProfileType, setUserProfile} from "../../redax/profileReducer";
-import {useParams} from "react-router-dom";
+import {getUserProfile, MyPostPageType} from "../../redax/profileReducer";
+import {Navigate, Route, Routes, useParams} from "react-router-dom";
 import {StateType} from "../../redax/reduxStore";
+import {PATH} from "../../App";
+import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 
 
 type MapDispatchPropsType = {
-    setUserProfile: (profile: ProfileType) => void
+    getUserProfile: (userId: any) => void
+    isAuth: boolean
 }
 type PropsType = MapDispatchPropsType & MyPostPageType
 
 export function ProfileApiComponent(props: PropsType) {
 
     let {userId} = useParams<{ userId: string }>()
-    console.log('userId', userId)
-    useEffect(() => {
-        //let UsersId = props.profile.userId
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(r => {
-                props.setUserProfile(r.data)
-            })
-    }, [])
-
+    props.getUserProfile(userId)
     return <Profile profile={props.profile}/>
 }
+
 
 let mapStateToProps = (state: StateType) => {
     return ({
             myPostData: state.myPostPage.myPostData,
             newPostText: state.myPostPage.newPostText,
-            profile: state.myPostPage.profile
+            profile: state.myPostPage.profile,
+            isAuth: state.auth.isAuth
         }
     )
 }
 
-export const ProfileContainer = connect(mapStateToProps, {setUserProfile})
-(ProfileApiComponent)
+let AuthRedirectComponent = WithAuthRedirect(Profile)
+
+export const ProfileContainer = connect(mapStateToProps, {getUserProfile})
+(AuthRedirectComponent)

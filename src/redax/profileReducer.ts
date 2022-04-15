@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {useEffect} from "react";
+import {usersAPI} from "../API/api";
 
 export type MyPostPageType = {
     myPostData: Array<PostType>
@@ -85,5 +87,13 @@ export const profileReducer = (state = initialState, action: any): MyPostPageTyp
 
 export const addPostActionCreator = () => ({type: 'ADD_POST'})
 export const setUserProfile = (profile: any) => ({type: 'SET_USER_PROFILE', profile})
+export const getUserProfile = (userId: any) => (dispatch: any) => {
+    useEffect(() => {
+        usersAPI.getProfile(userId)
+            .then(res => {
+                dispatch(setUserProfile(res.data))
+            })
+    }, [])
+}
 export const updateNewPostTextActionCreator = (text: string) =>
     ({type: "UPDATE_NEW_POST_TEXT", newPostText: text})

@@ -1,32 +1,18 @@
 import React from "react";
 import s from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
+import {PATH} from "../../App";
 
 const Navbar = () => {
+    const setActive = ({isActive}: any) => isActive ? s.active : s.anActive
     return (
         <nav className={s.nav}>
-            <div className={s.item}>
-                <NavLink to='/profile/2' >Profile </NavLink>
-                <div className={s.item}>
-                    <NavLink to='/dialogs'>Messages</NavLink>
-                </div>
-                <div className={s.item}>
-                    <NavLink to='/news'>News</NavLink>
-                </div>
-                <div className={s.item}>
-                    <NavLink to='/music'>Music</NavLink>
-                </div>
-                <div className={s.item}>
-                    <NavLink to='/setting'>Setting</NavLink>
-                </div>
-            </div>
-            <div className={s.sidebare}>
-                <div>
-                    <div className={s.item}>
-                        <NavLink to='/users'>Users</NavLink>
-                    </div>
-                </div>
-            </div>
+            <NavLink to={`${PATH.Profile}/2`} className={setActive}>Profile</NavLink>
+            <NavLink to={PATH.Dialogs} className={setActive}>Messages</NavLink>
+            <NavLink to={PATH.News} className={setActive}>News</NavLink>
+            <NavLink to={PATH.Music} className={setActive}>Music</NavLink>
+            <NavLink to={PATH.Setting} className={setActive}>Setting</NavLink>
+            <NavLink to={PATH.Users} className={setActive}>Users</NavLink>
         </nav>
 
     )

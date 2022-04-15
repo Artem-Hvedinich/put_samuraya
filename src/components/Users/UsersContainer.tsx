@@ -3,14 +3,10 @@ import {connect} from "react-redux";
 import {StateType} from "../../redax/reduxStore";
 import {
     follow,
-    setCurrentPage, setToggleIsFetching,
-    setTotalUsersCount,
-    setUsers,
-    unfollow,
+    getUsers,
+    setCurrentPage, setToggleIsFetching, unfollow,
     UsersPageType,
-    UserType
 } from "../../redax/usersReducer";
-import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 
@@ -19,24 +15,11 @@ export type PropsType = UsersPageType & MDTP
 export class UsersAPIComponent extends React.Component<PropsType, any> {
 
     componentDidMount() {
-        this.props.setToggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?
-        page=${this.props.currentPage}count${this.props.pageSize}`).then(r => {
-            this.props.setToggleIsFetching(false)
-            this.props.setUsers(r.data.items)
-            this.props.setTotalUsersCount(r.data.totalCount)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
-    onPageChanged = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.setToggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?
-        page=${pageNumber}count${this.props.pageSize}`).then(r => {
-            this.props.setToggleIsFetching(false)
-            this.props.setUsers(r.data.items)
-        })
-    }
+    onPageChanged = (pageNumber: number) => this.props.getUsers(pageNumber, this.props.pageSize)
+
 
     render() {
         return <>
@@ -45,8 +28,10 @@ export class UsersAPIComponent extends React.Component<PropsType, any> {
                 totalUsersCount={this.props.totalUsersCount}
                 pageSize={this.props.pageSize}
                 onPageChanged={this.onPageChanged}
-                users={this.props.users} follow={this.props.follow}
-                unfollow={this.props.unfollow} currentPage={this.props.currentPage}
+                users={this.props.users}
+                follow={this.props.follow}
+                unfollow={this.props.unfollow}
+                currentPage={this.props.currentPage}
             />
         </>
     }
@@ -58,19 +43,23 @@ let mapStateToProps = (state: StateType): UsersPageType => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
 export type MDTP = {
     follow: (UsersId: number) => void
     unfollow: (UsersId: number) => void
-    setUsers: (users: Array<UserType>) => void
     setCurrentPage: (pageNumber: number) => void
-    setTotalUsersCount: (totalCount: number) => void
     setToggleIsFetching: (isFetching: boolean) => void
+    getUsers: (currentPage: number, pageSize: number) => void
 }
 
 export const UsersContainer = connect(mapStateToProps,
-    {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, setToggleIsFetching}
+    {
+        follow, unfollow,
+        setCurrentPage, setToggleIsFetching,
+        getUsers
+    }
 )(UsersAPIComponent)

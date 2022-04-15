@@ -10,10 +10,10 @@ type MyPostType = {
     newPostText: string
 };
 
-
 export const MyPosts = (props: MyPostType) => {
-    let myPostElements = props.myPostData.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}
-                                                         img={p.img}/>)
+    let myPostElements = props.myPostData.map(p =>
+        <Post key={p.id} message={p.message}
+              likesCount={p.likesCount} img={p.img}/>)
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => props.addPost()
@@ -24,20 +24,23 @@ export const MyPosts = (props: MyPostType) => {
         }
     }
 
-
     return (
         <div className={s.postsBlock}>
-            <h2>My post</h2>
-            <textarea value={props.newPostText}
-                      placeholder='Enter You Comment'
-                      onChange={onPostChange}
-                      ref={newPostElement}
-            />
-            <div>
-                <button onClick={addPost}>Add post</button>
+            <div >
+                <h2>My post</h2>
+                <textarea value={props.newPostText}
+                          placeholder='Enter You Comment'
+                          onChange={onPostChange}
+                          ref={newPostElement}
+                          className={s.text}
+                />
+                <div>
+                    <button onClick={addPost}>Add post</button>
+                </div>
+                <div>
+                    {myPostElements}
+                </div>
             </div>
-            <div>
-                {myPostElements}
-            </div>
-        </div>)
+        </div>
+    )
 }

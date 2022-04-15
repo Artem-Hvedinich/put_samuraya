@@ -1,6 +1,5 @@
 .users {
     display: flex;
-    /*align-items: start;*/
     flex-direction: column;
     width: 100%;
 }
@@ -29,6 +28,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    box-shadow: 0 3px 5px black;
 }
 
 .right_block {
@@ -47,7 +47,6 @@
 .block_users {
     display: flex;
     flex-direction: column;
-    /*justify-content: end;*/
     width: 180px;
     margin-left: 5px;
 }

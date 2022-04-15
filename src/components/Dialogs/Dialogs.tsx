@@ -3,11 +3,14 @@ import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Message/Message";
 import {MessagePageType} from "../../redax/dialogsReducer";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {PATH} from "../../App";
 
 type DialogsPropsType = {
     updateMewMessageBody: (body: string) => void
     onSendMessageClick: () => void
     messagesPage: MessagePageType
+    isAuth: boolean
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
@@ -23,6 +26,10 @@ export const Dialogs = (props: DialogsPropsType) => {
         let body = e.target.value
         props.updateMewMessageBody(body)
     }
+
+    if (!props.isAuth)
+        return <Routes><Route path="*" element={<Navigate to={PATH.Login}/>}/></Routes>
+
 
     return <div className={s.dialogs}>
         <div className={s.dialogsItems}>
@@ -40,5 +47,5 @@ export const Dialogs = (props: DialogsPropsType) => {
             </div>
         </div>
     </div>;
-}
 
+}
