@@ -18,7 +18,7 @@ export type messageType = {
 }
 let initialState: MessagePageType = {
     dialogs: [
-        {id: 1, name: 'Dimych',}, //img:url()},
+        {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrey'},
         {id: 3, name: 'Sveta'},
         {id: 4, name: 'Sasha'},
@@ -38,7 +38,7 @@ let initialState: MessagePageType = {
 }
 
 export const dialogsReducer = (state = initialState,
-                               action: { type: string; body: string }) => {
+                               action: ActionType) => {
     switch (action.type) {
         case 'UPDATE_NEW_MESSAGE_BODY': {
             return {...state, newMessageBody: action.body}
@@ -55,7 +55,11 @@ export const dialogsReducer = (state = initialState,
     }
     return state
 }
+type ActionType = sendMessageCreatorType | updateMewMessageBodyCreatorType
 
-export const sendMessageCreator = () => ({type: SEND_MESSAGE})
+type sendMessageCreatorType = ReturnType<typeof sendMessageCreator>
+export const sendMessageCreator = () => ({type: SEND_MESSAGE} as const)
+
+type updateMewMessageBodyCreatorType = ReturnType<typeof updateMewMessageBodyCreator>
 export const updateMewMessageBodyCreator = (text: string) =>
     ({type: UPDATE_NEW_MESSAGE_BODY, body: text})

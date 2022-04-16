@@ -20,6 +20,7 @@ export type UsersPageType = {
     isFetching: boolean
     followingInProgress: any[]
 }
+
 let initialState: UsersPageType = {
     users: [],
     pageSize: 5,

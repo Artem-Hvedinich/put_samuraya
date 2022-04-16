@@ -1,23 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/users_images.png";
 import {Button} from "@mui/material";
-import {UserType} from "../../redax/usersReducer";
+import {follow, getUsers, unfollow, UsersPageType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../App";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../redax/reduxStore";
+import {Preloader} from "../common/Preloader/Preloader";
 
-type PropsUsersType = {
-    totalUsersCount: number
-    pageSize: number
-    onPageChanged: (pageNumber: number) => void
-    users: UserType[]
-    unfollow: (UsersId: number) => void
-    follow: (UsersId: number) => void
-    currentPage: number
-}
 
-export const Users = (props: PropsUsersType) => {
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize - 3960)
+export const Users = () => {
+    const UsersPage = useSelector<AppStoreType, UsersPageType>(s => s.usersPage)
+
+    useEffect(() => {
+
+        dispatch(getUsers(UsersPage.currentPage, UsersPage.pageSize))
+    }, [])
+
+    const dispatch = useDispatch()
+
+
+    let pagesCount = Math.ceil(UsersPage.totalUsersCount / UsersPage.pageSize - 3680)
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -25,7 +29,8 @@ export const Users = (props: PropsUsersType) => {
 
     return (
         <div className={s.users}>
-            {props.users.map((u) =>
+            {UsersPage.isFetching ? <Preloader/> : null}
+            {UsersPage.users.map((u) =>
                 <div className={s.body_style}>
                     <div className={s.block_follow}>
                         <NavLink to={PATH.Profile + '/' + u.id}>
@@ -40,7 +45,7 @@ export const Users = (props: PropsUsersType) => {
                                         size={"small"}
                                         color={'secondary'}
                                         onClick={() => {
-                                            props.unfollow(u.id)
+                                            dispatch(unfollow(u.id))
                                         }}>
                                     Unfollow</Button>
                                 :
@@ -48,7 +53,7 @@ export const Users = (props: PropsUsersType) => {
                                         size={"small"}
                                         color={'secondary'}
                                         onClick={() => {
-                                            props.follow(u.id)
+                                            dispatch(follow(u.id))
                                         }}>
                                     Follow</Button>}
                         </div>
@@ -67,9 +72,11 @@ export const Users = (props: PropsUsersType) => {
             )}
             <div className={s.pages}>
                 {pages.map(p => {
-                    const setActive = props.currentPage === p ? s.selectedPage : s.selectedPage
+                    const onPageChanged = (pageNumber: number) => dispatch(getUsers(pageNumber, UsersPage.pageSize))
+
+                    const setActive = UsersPage.currentPage === p ? s.selectedPage : s.selectedPage
                     return <span onClick={() => {
-                        props.onPageChanged(p)
+                        onPageChanged(p)
                     }
                     } className={setActive}>|{p}|</span>
                 })}

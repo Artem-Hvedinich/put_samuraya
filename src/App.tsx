@@ -5,11 +5,13 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Setting from "./components/Settings/Setting";
 import {Routes, Route, Navigate} from "react-router-dom";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {UsersContainer} from "./components/Users/UsersContainer";
-import {ProfileContainer} from "./components/Profile/ProfileContainer";
-import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
+import {Profile} from "./components/Profile/Profile";
+import {Users} from "./components/Users/Users";
+import {Header} from "./components/Header/Header";
+import {useSelector} from "react-redux";
+import {AppStoreType} from "./redax/reduxStore";
+import { Dialogs } from "./components/Dialogs/Dialogs";
 
 export const PATH = {
     Login: '/login',
@@ -22,10 +24,12 @@ export const PATH = {
 }
 
 const App = () => {
+    const isAuth = useSelector<AppStoreType, boolean>(s => s.auth.isAuth)
+
     return (
         <div className='container'>
             <div className={'header'}>
-                <HeaderContainer/>
+                <Header/>
             </div>
             <div>
                 <div className={'content'}>
@@ -35,9 +39,9 @@ const App = () => {
                     <div className={'face'}>
                         <Routes>
                             <Route path={'/'} element={<Navigate to={PATH.Profile}/>}/>
-                            <Route path={PATH.Profile + "/:userId"} element={<ProfileContainer />}/>
-                            <Route path={PATH.Users} element={<UsersContainer/>}/>
-                            <Route path={PATH.Dialogs} element={<DialogsContainer/>}/>
+                            <Route path={PATH.Profile + "/:userId"} element={<Profile isAuth={isAuth}/>}/>
+                            <Route path={PATH.Users} element={<Users/>}/>
+                            <Route path={PATH.Dialogs} element={<Dialogs isAuth={isAuth}/>}/>
                             <Route path={PATH.News} element={<News/>}/>
                             <Route path={PATH.Music} element={<Music/>}/>
                             <Route path={PATH.Setting} element={<Setting/>}/>

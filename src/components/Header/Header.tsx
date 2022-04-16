@@ -1,14 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../App";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../redax/reduxStore";
+import {DataType, getAuthUserData} from "../../redax/authReducer";
 
-type HeaderType = {
-    login: string
-    isAuth: boolean
-}
+export const Header = () => {
+    const auth = useSelector<AppStoreType, DataType>(s => s.auth)
+    const dispatch = useDispatch()
 
-export const Header = (props: HeaderType) => {
+    useEffect(() => {
+        dispatch(getAuthUserData())
+    }, [])
+
     return (
         <header className={s.header}>
             <div className={s.img}><img
@@ -16,7 +21,7 @@ export const Header = (props: HeaderType) => {
                 <h2 className={s.title}>AiR Network</h2>
             </div>
             <div className={s.loginBlock}>
-                {props.isAuth ? props.login
+                {auth.isAuth ? auth.login
                     : <NavLink to={PATH.Login}>Login</NavLink>}
             </div>
         </header>

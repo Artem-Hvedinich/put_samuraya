@@ -1,44 +1,50 @@
 import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
-import {PostType} from "../../../redax/profileReducer";
+import {
+    addPostActionCreator,
+    PostType,
+    updateNewPostTextActionCreator
+} from "../../../redax/profileReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../../redax/reduxStore";
 
-type MyPostType = {
-    addPost: () => void
-    updateNewPostText: (text: string) => void
-    myPostData: Array<PostType>
-    newPostText: string
-};
+export const MyPosts = () => {
+    const dispatch = useDispatch()
+    const post = useSelector<AppStoreType, PostType[]>(s => s.myPostPage.myPostData)
+    const newPostText = useSelector<AppStoreType, string>(s => s.myPostPage.newPostText)
 
-export const MyPosts = (props: MyPostType) => {
-    let myPostElements = props.myPostData.map(p =>
-        <Post key={p.id} message={p.message}
-              likesCount={p.likesCount} img={p.img}/>)
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
+    let newPost = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => props.addPost()
+    const addPost = () => {
+        dispatch(addPostActionCreator())
+        dispatch(updateNewPostTextActionCreator(''));
+    }
     const onPostChange = () => {
-        let text = newPostElement.current?.value
+        let text = newPost.current?.value
         if (text) {
-            props.updateNewPostText(text)
+            dispatch(updateNewPostTextActionCreator(text));
         }
     }
 
     return (
         <div className={s.postsBlock}>
-            <div >
+            <div>
                 <h2>My post</h2>
-                <textarea value={props.newPostText}
+                <textarea value={newPostText}
                           placeholder='Enter You Comment'
                           onChange={onPostChange}
-                          ref={newPostElement}
+                          ref={newPost}
                           className={s.text}
                 />
                 <div>
                     <button onClick={addPost}>Add post</button>
                 </div>
                 <div>
-                    {myPostElements}
+                    {post.map((p: PostType) => {
+                        return <Post key={p.id} message={p.message}
+                                     likesCount={p.likesCount} img={p.img}/>
+                    })}
                 </div>
             </div>
         </div>
