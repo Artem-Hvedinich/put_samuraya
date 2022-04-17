@@ -23,7 +23,7 @@ export const Login = ({isAuth, userId}: { isAuth: boolean, userId: number }) => 
         dispatch(login(formData.email, formData.password, formData.rememberMe))
     }
     if (isAuth)
-        return <Routes><Route path="*" element={<Navigate to={`${PATH.Profile}/${userId}`}/>}/></Routes>
+        return <Navigate to={`${PATH.Profile}/${userId}`}/>
     return (
         <LoginWrapper>
             <h1> Login</h1>

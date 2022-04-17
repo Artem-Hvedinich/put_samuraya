@@ -1,7 +1,7 @@
 import {minLengthCreator, requiredField} from "../../utils/valubator/validators";
 import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {FormWrapper} from "../../assets/Wrapper";
+import {Error, FormWrapper} from "../../assets/Wrapper";
 import {Input} from "../common/FormsControls/FormControls";
 import styled from "styled-components";
 
@@ -37,6 +37,8 @@ export const LoginForm: React.FC<InjectedFormProps<FromDataType>> = (props: any)
                 <Text>Remember Me</Text>
                 <InputWrapper type='checkbox' name={'rememberMe'} component={Input}/>
             </TextWrapper>
+            {props.error &&
+                <Error>{props.error}</Error>}
             <TextWrapper>
                 <button>Login</button>
             </TextWrapper>

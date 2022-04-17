@@ -40,11 +40,11 @@ const UrlBlock = styled.div`
 
 export const ProfileInfo = () => {
     const profile = useSelector<AppStoreType, ProfileType>(s => s.myPostPage.profile)
-
+    if (!profile) {
+        return <Preloader/>
+    }
     const content = () => {
-        if (!profile) {
-            return <Preloader/>
-        }
+
         if (profile.userId) {
             return (
                 <ProfileInfoWrapper>

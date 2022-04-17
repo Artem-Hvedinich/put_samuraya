@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {getUserProfile, getUserStatus, updateUserStatus} from "../../redax/profileReducer";
-import {useDispatch} from "react-redux";
+import {useDispatch,} from "react-redux";
 import {Navigate, useParams} from "react-router-dom";
 import {PATH} from "../../App";
 

@@ -14,13 +14,10 @@ export const Users = () => {
     const UsersPage = useSelector<AppStoreType, UsersPageType>(s => s.usersPage)
 
     useEffect(() => {
-
         dispatch(getUsers(UsersPage.currentPage, UsersPage.pageSize))
     }, [])
 
     const dispatch = useDispatch()
-
-
     let pagesCount = Math.ceil(UsersPage.totalUsersCount / UsersPage.pageSize - 3680)
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
