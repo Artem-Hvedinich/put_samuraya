@@ -8,7 +8,6 @@ export const Status = () => {
 
     const status = useSelector<AppStoreType, string>(s => s.myPostPage.status)
     const dispatch = useDispatch()
-    console.log(status)
     const [editMode, setEditMode] = useState(false)
 
     const activateEditMode = () => {

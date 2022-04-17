@@ -1,4 +1,5 @@
 import axios from "axios";
+import {login} from "../redax/authReducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
@@ -32,8 +33,14 @@ export const profileApi = {
     },
 }
 
-export const headerAPI = {
-    getHeader() {
+export const authAPI = {
+    me() {
         return instance.get(`auth/me`)
+    },
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post(`auth/login`, {email, password, rememberMe})
+    },
+    logout() {
+        return instance.delete(`auth/login`)
     },
 }

@@ -4,7 +4,6 @@ import {Dispatch} from "redux";
 
 export type MyPostPageType = {
     myPostData: Array<PostType>
-    newPostText: string
     profile: ProfileType
     status: string
 }
@@ -52,7 +51,6 @@ let initialState: MyPostPageType = {
             img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
         },
     ],
-    newPostText: '',
     profile: {},
     status: '',
 }
@@ -77,30 +75,19 @@ export const profileReducer = (state = initialState, action: ActionType): MyPost
                 ...state,
                 myPostData: [{
                     id: v1(),
-                    message: state.newPostText,
+                    message: action.addNewPost,
                     likesCount: 0,
                     img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
                 }, ...state.myPostData]
             }
         }
-        case 'UPDATE_NEW_POST_TEXT': {
-            return {
-                ...state,
-                newPostText: action.newPostText
-            }
-        }
-
     }
     return {...state}
 }
-type ActionType = addPostAT | setUserProfileAT | setStatusAT | updateNewPostTextActionCreatorAT
+type ActionType = addPostAT | setUserProfileAT | setStatusAT
 
 type addPostAT = ReturnType<typeof addPostActionCreator>
-export const addPostActionCreator = () => ({type: 'ADD_POST'} as const)
-
-type updateNewPostTextActionCreatorAT = ReturnType<typeof updateNewPostTextActionCreator>
-export const updateNewPostTextActionCreator = (text: string) =>
-    ({type: "UPDATE_NEW_POST_TEXT", newPostText: text} as const)
+export const addPostActionCreator = (addNewPost: string) => ({type: 'ADD_POST', addNewPost} as const)
 
 type setUserProfileAT = ReturnType<typeof setUserProfile>
 export const setUserProfile = (profile: ProfileType) => ({type: 'SET_USER_PROFILE', profile: profile} as const)
@@ -119,7 +106,6 @@ export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
 export const getUserStatus = (userId: string) => (dispatch: Dispatch) => {
     profileApi.getStatus(userId)
         .then(res => {
-            console.log(res.data)
             dispatch(setStatus(res.data))
         })
 }

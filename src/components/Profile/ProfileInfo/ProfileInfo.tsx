@@ -1,33 +1,45 @@
 import React from "react";
-import s from './ProfileInfo.module.css'
 import usersImg from "../../../assets/images/users_images.png"
 import {Status} from "./Status";
 import {ProfileType} from "../../../redax/profileReducer";
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../redax/reduxStore";
 import {Preloader} from "../../common/Preloader/Preloader";
+import {Job} from "./Job";
+import styled from "styled-components";
 
+const ProfileInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 50vw; `
+
+
+const AvatarWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15vw;
+  height: 15vw;
+  background-color: rgba(255, 255, 255, 0.19);
+  box-shadow: 0 0 3px black;
+  border-radius: 5px;
+  padding: 1vw`
+const Img = styled.img`
+  border-radius: 13px;
+  width: 100%;
+  height: 100%;`
+const InfoBlock = styled.div`
+  width: 34vw;
+  background-color: rgba(255, 255, 255, 0.19);
+  box-shadow: 0 0 3px black;
+  border-radius: 5px;
+  padding: 1.5vw;`
+const UrlBlock = styled.div`
+  display: grid;
+  grid-template-columns: 100px 100px 100px;`
 
 export const ProfileInfo = () => {
     const profile = useSelector<AppStoreType, ProfileType>(s => s.myPostPage.profile)
-
-
-    const Job = () => {
-        if (profile?.lookingForAJob === true) {
-            return <>
-                <div>Ищу ли я работу: Да</div>
-                <div>Предпочтения в работе: {profile?.lookingForAJobDescription}</div>
-            </>
-        }
-        if (profile?.lookingForAJob === false) {
-            return <div>Ищу ли я работу: Нет</div>
-        } else {
-            return <></>
-        }
-    }
-
-    const srcHandler = () => (profile.photos?.large === null) ? usersImg : profile.photos?.large
-
 
     const content = () => {
         if (!profile) {
@@ -35,19 +47,17 @@ export const ProfileInfo = () => {
         }
         if (profile.userId) {
             return (
-                <div className={s.profile}>
+                <ProfileInfoWrapper>
+                    <AvatarWrapper>
+                        <Img src={(profile.photos?.large === null) ? usersImg : profile.photos?.large}/>
+                    </AvatarWrapper>
 
-                    <div className={s.avatar}>
-                        <img className={s.img}
-                             src={srcHandler()}/>
-                    </div>
-
-                    <div className={s.info}>
+                    <InfoBlock>
                         <h1>{profile.fullName}</h1>
                         <Status/>
                         <p>{profile?.aboutMe}</p>
                         Соц Сети:
-                        <div className={s.url}>
+                        <UrlBlock>
                             <a href={profile?.contacts?.vk}>Vk</a>
                             <a href={profile?.contacts?.github}>github</a>
                             <a href={profile?.contacts?.instagram}>instagram</a>
@@ -56,17 +66,17 @@ export const ProfileInfo = () => {
                             <a href={profile?.contacts?.twitter}>twitter</a>
                             <a href={profile?.contacts?.website}>website</a>
                             <a href={profile?.contacts?.youtube}>youtube</a>
-                        </div>
-                        {Job()}
-
-                    </div>
-
-                </div>
+                        </UrlBlock>
+                        <Job profile={profile}/>
+                    </InfoBlock>
+                </ProfileInfoWrapper>
             )
         } else {
             return <h1>Sorry, Error 404</h1>
         }
     }
+
+
     return (
         content()
 

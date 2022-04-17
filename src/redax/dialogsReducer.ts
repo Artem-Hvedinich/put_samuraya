@@ -1,65 +1,52 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY'
-const SEND_MESSAGE = 'SEND_MESSAGE'
-
+import {v1} from "uuid"
 
 export type MessagePageType = {
     dialogs: Array<dialogsType>
     messages: Array<messageType>
-    newMessageBody: string
 }
 export type dialogsType = {
-    id: number,
+    id: string,
     name: string,
     // img: string,
 }
 export type messageType = {
-    id: number,
+    id: string,
     message: string,
 }
 let initialState: MessagePageType = {
     dialogs: [
-        {id: 1, name: 'Dimych'},
-        {id: 2, name: 'Andrey'},
-        {id: 3, name: 'Sveta'},
-        {id: 4, name: 'Sasha'},
-        {id: 5, name: 'Artem'},
-        {id: 6, name: 'Viktor'}
+        {id: v1(), name: 'Dimych'},
+        {id: v1(), name: 'Andrey'},
+        {id: v1(), name: 'Sveta'},
+        {id: v1(), name: 'Sasha'},
+        {id: v1(), name: 'Artem'},
+        {id: v1(), name: 'Viktor'}
     ],
 
     messages: [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'How a you'},
-        {id: 3, message: 'Artem?'},
-        {id: 4, message: 'Yo'},
-        {id: 5, message: 'Why?'},
-        {id: 6, message: 'Like'}
+        {id: v1(), message: 'Hi'},
+        {id: v1(), message: 'How a you'},
+        {id: v1(), message: 'Artem?'},
+        {id: v1(), message: 'Yo'},
+        {id: v1(), message: 'Why?'},
+        {id: v1(), message: 'Like'}
     ],
-    newMessageBody: ''
 }
 
 export const dialogsReducer = (state = initialState,
                                action: ActionType) => {
     switch (action.type) {
-        case 'UPDATE_NEW_MESSAGE_BODY': {
-            return {...state, newMessageBody: action.body}
-
-        }
         case 'SEND_MESSAGE': {
-            let body = state.newMessageBody
+            let body = action.newMessageBody
             return {
                 ...state,
-                newMessageBody: '',
-                messages: [...state.messages, {id: 7, message: body}]
+                messages: [...state.messages, {id: v1(), message: body}]
             }
         }
     }
     return state
 }
-type ActionType = sendMessageCreatorType | updateMewMessageBodyCreatorType
+type ActionType = sendMessageCreatorType
 
 type sendMessageCreatorType = ReturnType<typeof sendMessageCreator>
-export const sendMessageCreator = () => ({type: SEND_MESSAGE} as const)
-
-type updateMewMessageBodyCreatorType = ReturnType<typeof updateMewMessageBodyCreator>
-export const updateMewMessageBodyCreator = (text: string) =>
-    ({type: UPDATE_NEW_MESSAGE_BODY, body: text})
+export const sendMessageCreator = (newMessageBody: string) => ({type: 'SEND_MESSAGE', newMessageBody} as const)

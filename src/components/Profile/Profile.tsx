@@ -3,7 +3,8 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {getUserProfile, getUserStatus, updateUserStatus} from "../../redax/profileReducer";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
+import {PATH} from "../../App";
 
 export const Profile = ({isAuth}: { isAuth: boolean }) => {
     const dispatch = useDispatch()
@@ -16,7 +17,7 @@ export const Profile = ({isAuth}: { isAuth: boolean }) => {
         }
     }, [])
 
-    // if (!isAuth) return <Navigate to={PATH.Login}/>
+    if (!isAuth) return <Navigate to={PATH.Login}/>
     return (
         <div style={{width: '100%'}}>
             <ProfileInfo/>
