@@ -1,5 +1,4 @@
 import axios from "axios";
-import {login} from "../redax/authReducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",

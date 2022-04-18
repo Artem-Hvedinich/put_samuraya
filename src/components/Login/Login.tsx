@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from "styled-components";
 import {FromDataType, LoginReduxForm} from './LoginForm';
-import {useDispatch, useSelector} from "react-redux";
-
+import {useDispatch} from "react-redux";
 import {login} from "../../redax/authReducer";
-import {Navigate, Route, Routes} from "react-router-dom";
-import {PATH} from "../../App";
+import {Navigate} from "react-router-dom";
+import {PATH} from '../RoutesWrapper/RoutersWrapper';
+
 
 const LoginWrapper = styled.div`
   width: 50vw;

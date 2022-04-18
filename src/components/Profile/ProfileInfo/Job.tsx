@@ -4,12 +4,12 @@ import {ProfileType} from "../../../redax/profileReducer";
 export const Job = ({profile}: { profile: ProfileType }) => {
     if (profile?.lookingForAJob === true) {
         return <>
-            <div>Ищу ли я работу: Да</div>
-            <div>Предпочтения в работе: {profile?.lookingForAJobDescription}</div>
+            <p>Ищу ли я работу: Да</p>
+            <p>Предпочтения в работе: {profile?.lookingForAJobDescription}</p>
         </>
     }
     if (profile?.lookingForAJob === false) {
-        return <div>Ищу ли я работу: Нет</div>
+        return <p>Ищу ли я работу: Нет</p>
     } else {
         return <></>
     }

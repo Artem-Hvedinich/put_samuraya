@@ -7,19 +7,19 @@
 .anActive {
     display: flex;
     align-items: center;
-    font-size: 17px;
-    height: 30px;
-    padding-left: 30px;
+    font-size: 1vw;
+    height: 2vw;
+    padding-left: 2vw;
     text-decoration: none;
     color: black;
-    margin-right: 10px;
+    margin-right: 1vw;
 }
 
 .active,
 .anActive:hover {
     background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 4px;
+    border-radius: 0.5vw;
     box-shadow: 0 0 2px black;
-    font-size: 18px;
+    font-size: 1.1vw;
 }
 

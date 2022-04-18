@@ -4,10 +4,10 @@ import userPhoto from "../../assets/images/users_images.png";
 import {Button} from "@mui/material";
 import {follow, getUsers, unfollow, UsersPageType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
-import {PATH} from "../../App";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
 import {Preloader} from "../common/Preloader/Preloader";
+import {PATH} from "../RoutesWrapper/RoutersWrapper";
 
 
 export const Users = () => {
@@ -15,7 +15,7 @@ export const Users = () => {
 
     useEffect(() => {
         dispatch(getUsers(UsersPage.currentPage, UsersPage.pageSize))
-    }, [])
+    }, [UsersPage.currentPage, UsersPage.pageSize])
 
     const dispatch = useDispatch()
     let pagesCount = Math.ceil(UsersPage.totalUsersCount / UsersPage.pageSize - 3680)

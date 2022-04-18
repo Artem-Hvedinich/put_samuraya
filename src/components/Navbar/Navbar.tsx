@@ -1,10 +1,8 @@
 import React from "react";
 import s from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
-import {PATH} from "../../App";
-import {useSelector} from "react-redux";
-import {AppStoreType} from "../../redax/reduxStore";
 import styled from "styled-components";
+import { PATH } from "../RoutesWrapper/RoutersWrapper";
 
 const NavBarWrapper = styled.div`
   display: flex;

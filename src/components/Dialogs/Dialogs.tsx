@@ -4,10 +4,10 @@ import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Message/Message";
 import {MessagePageType, sendMessageCreator} from "../../redax/dialogsReducer";
 import {Navigate} from "react-router-dom";
-import {PATH} from "../../App";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
 import {AddMessageFormRedux} from "./AddNewMessage";
+import { PATH } from "../RoutesWrapper/RoutersWrapper";
 
 export const Dialogs = ({isAuth}: { isAuth: boolean }) => {
     const messagesPage = useSelector<AppStoreType, MessagePageType>(s => s.messagesPage)

@@ -2,9 +2,6 @@ import React from "react";
 import usersImg from "../../../assets/images/users_images.png"
 import {Status} from "./Status";
 import {ProfileType} from "../../../redax/profileReducer";
-import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../redax/reduxStore";
-import {Preloader} from "../../common/Preloader/Preloader";
 import {Job} from "./Job";
 import styled from "styled-components";
 
@@ -12,8 +9,6 @@ const ProfileInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50vw; `
-
-
 const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -36,13 +31,9 @@ const InfoBlock = styled.div`
   padding: 1.5vw;`
 const UrlBlock = styled.div`
   display: grid;
-  grid-template-columns: 100px 100px 100px;`
+  grid-template-columns: 10vw 10vw 10vw;`
 
-export const ProfileInfo = () => {
-    const profile = useSelector<AppStoreType, ProfileType>(s => s.myPostPage.profile)
-    if (!profile) {
-        return <Preloader/>
-    }
+export const ProfileInfo = ({profile}: { profile: ProfileType }) => {
     const content = () => {
 
         if (profile.userId) {
@@ -56,7 +47,7 @@ export const ProfileInfo = () => {
                         <h1>{profile.fullName}</h1>
                         <Status/>
                         <p>{profile?.aboutMe}</p>
-                        Соц Сети:
+                        <p>Соц Сети:</p>
                         <UrlBlock>
                             <a href={profile?.contacts?.vk}>Vk</a>
                             <a href={profile?.contacts?.github}>github</a>

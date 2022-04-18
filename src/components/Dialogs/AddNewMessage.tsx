@@ -12,6 +12,7 @@ type FromDataType = {
 const maxLength10 = maxLengthCreator(50)
 const minLength1 = minLengthCreator(1)
 const AddMessageForm: React.FC<InjectedFormProps<FromDataType>> = (props: any) => {
+
     return (
         <FormWrapper onSubmit={props.handleSubmit}>
             <Field name='newMessageBody' validate={[requiredField, maxLength10, minLength1]}
