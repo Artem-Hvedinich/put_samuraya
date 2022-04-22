@@ -1,4 +1,5 @@
 import {getAuthUserData} from "./authReducer";
+import {Dispatch} from "redux";
 
 type AppTypeReducer = {
     initialized: boolean
@@ -22,10 +23,7 @@ export const appReducer = (state = initialState, action: setInitializedType) => 
 type setInitializedType = ReturnType<typeof setInitialized>
 export const setInitialized = () => ({type: 'SET_INITIALIZED'} as const)
 
-export const initializedApp = () =>
-    (dispatch: any) => {
-        dispatch(getAuthUserData())
-            .then(() => {
-                dispatch(setInitialized())
-            })
-    }
+export const initializedApp = () => (dispatch: any) => {
+    dispatch(getAuthUserData())
+    dispatch(setInitialized())
+}

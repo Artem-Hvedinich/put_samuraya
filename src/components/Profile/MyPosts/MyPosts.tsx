@@ -1,7 +1,7 @@
 import React from "react";
 import Post from "./Post/Post";
 import {
-    addPostActionCreator,
+    addPost,
     PostType,
 } from "../../../redax/profileReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,11 +17,11 @@ const PostsBlock = styled.div`
   margin-top: 1vw;
   padding: 1vw;`
 
-export const MyPosts = () => {
+export const MyPosts = React.memo(() => {
     const dispatch = useDispatch()
-    const post = useSelector<AppStoreType, PostType[]>(s => s.myPostPage.myPostData)
+    const post = useSelector<AppStoreType, PostType[]>(s => s.myPostPage.posts)
     const newPostText = (value: any) => {
-        dispatch(addPostActionCreator(value.addNewPost))
+        dispatch(addPost(value.addNewPost))
     }
 
     return (
@@ -38,5 +38,5 @@ export const MyPosts = () => {
             </div>
         </PostsBlock>
     )
-}
+})
 

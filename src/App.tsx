@@ -14,7 +14,7 @@ const NetworkWrapper = styled.div`
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(to right, rgb(66, 63, 63), rgb(78, 114, 121), rgb(66, 63, 63));
+  background: linear-gradient(to right, rgb(66, 63, 63), rgb(174, 243, 214), rgba(66, 63, 63, 0.54));
   flex-wrap: wrap;
 `
 const MainWrapper = styled.div`

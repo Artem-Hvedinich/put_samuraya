@@ -8,25 +8,29 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
 import {Preloader} from "../common/Preloader/Preloader";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
+import {Pagination} from "./Pagination";
 
 
 export const Users = () => {
     const UsersPage = useSelector<AppStoreType, UsersPageType>(s => s.usersPage)
 
     useEffect(() => {
-        dispatch(getUsers(UsersPage.currentPage, UsersPage.pageSize))
-    }, [UsersPage.currentPage, UsersPage.pageSize])
+        dispatch(getUsers(UsersPage.currentPage))
+    }, [UsersPage.currentPage])
 
     const dispatch = useDispatch()
-    let pagesCount = Math.ceil(UsersPage.totalUsersCount / UsersPage.pageSize - 3680)
-    let pages = []
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+    const onPageChanged = (pageNumber: number) => {
+        return dispatch(getUsers(pageNumber))
     }
 
     return (
         <div className={s.users}>
+
             {UsersPage.isFetching ? <Preloader/> : null}
+            <div className={s.pages}>
+                <Pagination totalItemsCount={UsersPage.totalUsersCount} pageSize={UsersPage.pageSize}
+                            onPageChanged={onPageChanged} portionSize={10} currentPage={UsersPage.currentPage}/>
+            </div>
             {UsersPage.users.map((u) =>
                 <div className={s.body_style}>
                     <div className={s.block_follow}>
@@ -67,17 +71,7 @@ export const Users = () => {
                     </div>
                 </div>
             )}
-            <div className={s.pages}>
-                {pages.map(p => {
-                    const onPageChanged = (pageNumber: number) => dispatch(getUsers(pageNumber, UsersPage.pageSize))
 
-                    const setActive = UsersPage.currentPage === p ? s.selectedPage : s.selectedPage
-                    return <span onClick={() => {
-                        onPageChanged(p)
-                    }
-                    } className={setActive}>|{p}|</span>
-                })}
-            </div>
         </div>
     )
 }
