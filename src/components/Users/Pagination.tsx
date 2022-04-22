@@ -6,8 +6,7 @@ const NumbersWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
-  border: 1px solid red;`
+  width: 100%;`
 
 const PageWrap = styled.span<{ active: boolean }>`
   display: flex;
@@ -15,8 +14,16 @@ const PageWrap = styled.span<{ active: boolean }>`
   justify-content: center;
   width: 2vw;
   height: 2vw;
-  background: ${({active}) => active ? 'grey' : 'red'};
-`
+  background: ${({active}) => active && '#ffffff'};
+  border-radius: ${({active}) => active && 50}%;
+  cursor: pointer;
+  font-size: ${({active}) => active ? 18 : 14}px;
+
+  :hover {
+    background: grey;
+    border-radius: 50%;
+    font-size: 18px;
+  }`
 
 export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSize, currentPage}: {
     totalItemsCount: number, pageSize: number, portionSize: number, currentPage: number
@@ -46,7 +53,6 @@ export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSiz
                 <Button color={'#ffffff'} bgColor={'#110e0e'} width={4} height={1.5}
 
                         onClick={() => setPortionNumber(portionNumber + 1)}>Next</Button>}
-
         </NumbersWrapper>
     );
 };

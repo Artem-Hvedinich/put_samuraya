@@ -8,7 +8,7 @@ import {AppStoreType} from "../../redax/reduxStore";
 import {Preloader} from "../common/Preloader/Preloader";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 
-export const Profile = ({isAuth}: { isAuth: boolean }) => {
+const Profile = ({isAuth}: { isAuth: boolean }) => {
     const profile = useSelector<AppStoreType, ProfileType>(s => s.myPostPage.profile)
     const dispatch = useDispatch()
     let {userId} = useParams<{ userId: string }>()
@@ -16,7 +16,6 @@ export const Profile = ({isAuth}: { isAuth: boolean }) => {
         if (userId) {
             dispatch(getUserProfile(userId))
             dispatch(getUserStatus(userId))
-            // dispatch(updateUserStatus(''))
         }
     }, [userId])
 
@@ -29,3 +28,4 @@ export const Profile = ({isAuth}: { isAuth: boolean }) => {
         </div>
     )
 }
+export default Profile

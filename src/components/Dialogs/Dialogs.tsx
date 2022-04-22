@@ -9,7 +9,7 @@ import {AppStoreType} from "../../redax/reduxStore";
 import {AddMessageFormRedux} from "./AddNewMessage";
 import { PATH } from "../RoutesWrapper/RoutersWrapper";
 
-export const Dialogs = ({isAuth}: { isAuth: boolean }) => {
+ const Dialogs = ({isAuth}: { isAuth: boolean }) => {
     const messagesPage = useSelector<AppStoreType, MessagePageType>(s => s.messagesPage)
     const dispatch = useDispatch()
 
@@ -32,5 +32,5 @@ export const Dialogs = ({isAuth}: { isAuth: boolean }) => {
             </div>
         </div>
     </div>;
-
 }
+export default Dialogs
