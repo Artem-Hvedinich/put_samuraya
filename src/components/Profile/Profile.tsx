@@ -1,29 +1,36 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPosts} from "./MyPosts/MyPosts";
-import {getUserProfile, getUserStatus, ProfileType, updateUserStatus} from "../../redax/profileReducer";
+import {getUserProfile, getUserStatus, ProfilePageType, savePhotoTC,} from "../../redax/profileReducer";
 import {useDispatch, useSelector,} from "react-redux";
 import {Navigate, useParams} from "react-router-dom";
 import {AppStoreType} from "../../redax/reduxStore";
 import {Preloader} from "../common/Preloader/Preloader";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
+import {NullableType} from "../../redax/authReducer";
 
-const Profile = ({isAuth}: { isAuth: boolean }) => {
-    const profile = useSelector<AppStoreType, ProfileType>(s => s.myPostPage.profile)
+const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<number> }) => {
+    const myPostPage = useSelector<AppStoreType, ProfilePageType>(s => s.myPostPage)
     const dispatch = useDispatch()
-    let {userId} = useParams<{ userId: string }>()
+    const {userId} = useParams<{ userId: string }>()
+
+    const savePhoto = useCallback((file: string | Blob) => dispatch(savePhotoTC(file)), [])
+
     useEffect(() => {
         if (userId) {
             dispatch(getUserProfile(userId))
             dispatch(getUserStatus(userId))
         }
-    }, [userId])
+    }, [userId, myPostPage.editMode])
 
-    if (!profile) return <Preloader/>
+    if (!myPostPage.profile) return <Preloader/>
     if (!isAuth) return <Navigate to={PATH.Login}/>
+
+
     return (
         <div style={{width: '100%'}}>
-            <ProfileInfo profile={profile}/>
+            <ProfileInfo profile={myPostPage.profile} editMode={myPostPage.editMode} authId={authId}
+                         savePhoto={savePhoto}/>
             <MyPosts/>
         </div>
     )

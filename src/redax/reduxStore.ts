@@ -1,17 +1,16 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {combineReducers} from "redux";
 import {profileReducer} from "./profileReducer";
 import {dialogsReducer} from "./dialogsReducer";
 import {usersReducer} from "./usersReducer";
 import {authReducer} from "./authReducer";
-import thunkMiddleware from 'redux-thunk'
+import thunk from 'redux-thunk'
 import {reducer as formReducer} from 'redux-form'
 import {appReducer} from "./appReducer";
+import {configureStore, ThunkAction, Action} from "@reduxjs/toolkit";
 
-export type StateType =
-    ReturnType<typeof rootReducer>
+export type AppStoreType = ReturnType<typeof rootReducer>
 
-
-let rootReducer = combineReducers({
+const rootReducer = combineReducers({
     myPostPage: profileReducer,
     messagesPage: dialogsReducer,
     usersPage: usersReducer,
@@ -20,11 +19,13 @@ let rootReducer = combineReducers({
     form: formReducer,
 })
 
-// @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)))
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
+})
 
-export type DispatchType = ReturnType<typeof rootReducer>
-export type AppStoreType = ReturnType<typeof rootReducer>
+export type AppThunkType<ReturnType = void> = ThunkAction<void, AppStoreType, unknown, Action>
+
 // @ts-ignore
 window.store = store;
+export type DispatchType = ReturnType<typeof rootReducer>

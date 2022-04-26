@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from "../styledComponent/Button";
+import {Button} from "../../assets/styledComponent/Button";
 import styled from "styled-components";
 
 const NumbersWrapper = styled.div`
@@ -30,8 +30,8 @@ export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSiz
     onPageChanged: (pageNumber: number) => void
 }) => {
 
-    let pagesCount = Math.ceil(totalItemsCount / pageSize)
-    let pages = []
+    const pagesCount = Math.ceil(totalItemsCount / pageSize)
+    const pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
@@ -40,7 +40,6 @@ export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSiz
     const [portionNumber, setPortionNumber] = useState(1)
     const leftPositionPageNumber = (portionNumber - 1) * portionSize + 1
     const rightPositionPageNumber = portionNumber * portionSize
-    console.log(currentPage)
     return (
         <NumbersWrapper>
             {portionNumber > 1 && <Button color={'#ffffff'} bgColor={'#110e0e'} width={4} height={1.5}
@@ -51,8 +50,7 @@ export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSiz
                                       active={currentPage === p}>{p}</PageWrap>)}
             {portionCount > portionNumber &&
                 <Button color={'#ffffff'} bgColor={'#110e0e'} width={4} height={1.5}
-
                         onClick={() => setPortionNumber(portionNumber + 1)}>Next</Button>}
         </NumbersWrapper>
-    );
-};
+    )
+}

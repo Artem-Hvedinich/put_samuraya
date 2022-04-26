@@ -1,29 +1,44 @@
-import {getAuthUserData} from "./authReducer";
-import {Dispatch} from "redux";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {getAuthUserData, NullableType} from "./authReducer";
+import {AppThunkType} from "./reduxStore";
+import {authAPI} from "../API/api";
+import {handleServerAppError, handleServerNetworkError} from "../utilsError/error-utils";
 
-type AppTypeReducer = {
-    initialized: boolean
-}
-let initialState: AppTypeReducer = {
-    initialized: false
+const initialState = {
+    status: 'idle' as RequestStatusType,
+    error: null as NullableType<string>,
+    isInitialized: false
 }
 
-export const appReducer = (state = initialState, action: setInitializedType) => {
-    switch (action.type) {
-        case 'SET_INITIALIZED': {
-            return {
-                ...state,
-                initialized: true
-            }
+const slice = createSlice({
+    name: "app",
+    initialState: initialState,
+    reducers: {
+        setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
+            state.status = action.payload.status
+        },
+        setAppError(state, action: PayloadAction<{ error: NullableType<string> }>) {
+            state.error = action.payload.error
+        },
+        setInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
+            state.isInitialized = action.payload.isInitialized
         }
     }
-    return state
-}
+})
+export const appReducer = slice.reducer
+export const {setAppStatus, setAppError, setInitialized} = slice.actions
 
-type setInitializedType = ReturnType<typeof setInitialized>
-export const setInitialized = () => ({type: 'SET_INITIALIZED'} as const)
-
-export const initializedApp = () => (dispatch: any) => {
-    dispatch(getAuthUserData())
-    dispatch(setInitialized())
+export const initializeApp = (): AppThunkType => async dispatch => {
+    const res = await authAPI.me()
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(setInitialized({isInitialized: false}))
+            dispatch(getAuthUserData())
+        } else handleServerAppError(res.data, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setInitialized({isInitialized: true}))
+    }
 }
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

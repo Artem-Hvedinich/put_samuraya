@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect} from "react";
+import React from "react";
 import s from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Message/Message";
@@ -7,14 +7,14 @@ import {Navigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
 import {AddMessageFormRedux} from "./AddNewMessage";
-import { PATH } from "../RoutesWrapper/RoutersWrapper";
+import {PATH} from "../RoutesWrapper/RoutersWrapper";
 
- const Dialogs = ({isAuth}: { isAuth: boolean }) => {
+const Dialogs = ({isAuth}: { isAuth: boolean }) => {
     const messagesPage = useSelector<AppStoreType, MessagePageType>(s => s.messagesPage)
     const dispatch = useDispatch()
 
     let addNewMessage = (value: any) => {
-        dispatch(sendMessageCreator(value.newMessageBody))
+        dispatch(sendMessageCreator({newMessageBody: value.newMessageBody}))
     }
 
     if (!isAuth)

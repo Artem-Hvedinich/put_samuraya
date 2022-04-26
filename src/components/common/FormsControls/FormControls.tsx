@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Error} from "../../../assets/Wrapper";
+import {Field} from "redux-form";
 
 const TextareaWrapper = styled.textarea<{ hasError: string }>`
   border: ${props => props.hasError && '2px solid red'};
@@ -29,6 +30,15 @@ export const Input = ({input, meta, ...props}: { input: any, meta: any }) => {
             <div>
                 {hasError && <Error>{meta.error}</Error>}
             </div>
+        </div>
+    )
+}
+
+export const CreateField = ({placeholder, name, validator, component}
+                                : { placeholder: string, name: string, validator: [], component: any }) => {
+    return (
+        <div>
+            <Field name={name} placeholder={placeholder} validator={validator} component={component}/>
         </div>
     )
 }

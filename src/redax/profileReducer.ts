@@ -1,42 +1,12 @@
 import {v1} from "uuid";
 import {profileApi} from "../API/api";
-import {Dispatch} from "redux";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AppThunkType} from "./reduxStore";
+import {NullableType} from "./authReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utilsError/error-utils";
+import {setAppStatus} from "./appReducer";
 
-export type MyPostPageType = {
-    posts: Array<PostType>
-    profile: ProfileType
-    status: string
-}
-export type PostType = {
-    id: string,
-    message: string,
-    likesCount: number
-    img: string
-}
-export type ProfileType = {
-    aboutMe?: string
-    userId?: number
-    lookingForAJob?: boolean
-    lookingForAJobDescription?: string
-    fullName?: string
-    contacts?: {
-        github: string
-        vk: string
-        facebook: string
-        instagram: string
-        twitter: string
-        website: string
-        youtube: string
-        mainLink: string
-    }
-    photos?: {
-        small?: string
-        large?: string
-    }
-}
-
-
-let initialState: MyPostPageType = {
+const initialState: ProfilePageType = {
     posts: [
         {
             id: v1(),
@@ -51,68 +21,151 @@ let initialState: MyPostPageType = {
             img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
         },
     ],
-    profile: {},
+    profile: {} as ProfileType,
     status: '',
+    editMode: false,
+    statusEditMode: false,
 }
 
-export const profileReducer = (state = initialState, action: ActionType): MyPostPageType => {
-
-    switch (action.type) {
-        case 'SET_USER_PROFILE':
-            return {
-                ...state,
-                profile: action.profile
-            }
-        case 'SET_STATUS':
-            return {
-                ...state,
-                status: action.status
-            }
-        case 'ADD_POST':
+const slice = createSlice({
+    name: 'profile',
+    initialState: initialState,
+    reducers: {
+        addPost(state, action: PayloadAction<{ addNewPost: string }>) {
             return {
                 ...state,
                 posts: [{
                     id: v1(),
-                    message: action.addNewPost,
+                    message: action.payload.addNewPost,
                     likesCount: 0,
                     img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
                 }, ...state.posts]
             }
-        case "DELETE_POST":
-            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
+        },
+        deletePost(state, action: PayloadAction<{ postId: string }>) {
+            return {...state, posts: state.posts.filter(p => p.id !== action.payload.postId)}
+        },
+        setUserProfile(state, action: PayloadAction<{ profile: ProfileType }>) {
+            return {...state, profile: action.payload.profile}
+        },
+        setStatus(state, action: PayloadAction<{ status: string }>) {
+            return {...state, status: action.payload.status}
+        },
+        savePhotoSuccess(state, action: PayloadAction<{ photos: any }>) {
+            return {...state, profile: {...state.profile, photos: action.payload.photos}}
+        },
+        editModeAction(state, action: PayloadAction<{ editMode: boolean }>) {
+            return {...state, editMode: action.payload.editMode}
+        },
+        statusEditModeAction(state, action: PayloadAction<{ statusEditMode: boolean }>) {
+            return {...state, statusEditMode: action.payload.statusEditMode}
+        },
     }
-    return {...state}
-}
+})
 
-export const addPost = (addNewPost: string) => ({type: 'ADD_POST', addNewPost} as const)
+export const profileReducer = slice.reducer
+export const {
+    addPost,
+    deletePost,
+    setUserProfile,
+    setStatus,
+    savePhotoSuccess,
+    editModeAction,
+    statusEditModeAction
+} = slice.actions
 
-export const deletePost = (postId: string) => ({type: 'DELETE_POST', postId} as const)
-
-export const setUserProfile = (profile: ProfileType) => ({type: 'SET_USER_PROFILE', profile: profile} as const)
-
-export const setStatus = (status: string) => ({type: 'SET_STATUS', status} as const)
-
-export const getUserProfile = (userId: string) => async (dispatch: Dispatch) => {
+export const getUserProfile = (userId: string): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
     const res = await profileApi.getProfile(userId)
-    if (res.data)
-        dispatch(setUserProfile(res.data))
+    dispatch(setUserProfile({profile: res.data}))
 }
 
-export const getUserStatus = (userId: string) => async (dispatch: Dispatch) => {
+export const getUserStatus = (userId: string): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
     const res = await profileApi.getStatus(userId)
-    dispatch(setStatus(res.data))
+    dispatch(setStatus({status: res.data}))
 }
 
-export const updateUserStatus = (status: string) => async (dispatch: Dispatch) => {
+export const updateUserStatus = (status: string): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
     const res = await profileApi.updateStatus(status)
-    if (res.data.resolveData === 0) {
-        dispatch(setStatus(status))
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(setStatus({status}))
+            dispatch(statusEditModeAction({statusEditMode: false}))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        } else handleServerAppError(res.data, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setAppStatus({status: 'succeeded'}))
+    }
+}
+export const savePhotoTC = (file: string | Blob): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
+    const res = await profileApi.savePhoto(file)
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(savePhotoSuccess({photos: res.data.data.photos}))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        } else handleServerAppError(res.data, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setAppStatus({status: 'succeeded'}))
     }
 }
 
+export const saveProfile = (profile: ProfileType, editMode: boolean): AppThunkType => async (dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
+    const res = await profileApi.saveProfile(profile)
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(editModeAction({editMode}))
+            dispatch(setAppStatus({status: 'succeeded'}))
+        } else handleServerAppError(res.data, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error, dispatch)
+    } finally {
+        dispatch(setAppStatus({status: 'succeeded'}))
+    }
+}
 
-type ActionType =
-    | ReturnType<typeof addPost>
-    | ReturnType<typeof setUserProfile>
-    | ReturnType<typeof setStatus>
-    | ReturnType<typeof deletePost>
+//types
+export type ProfilePageType = {
+    posts: Array<PostType>
+    profile: ProfileType
+    status: NullableType<string>
+    editMode: boolean
+    statusEditMode: boolean
+}
+export type PostType = {
+    id: string,
+    message: string,
+    likesCount: number
+    img: string
+}
+export type ContactsType = {
+    [key: string]: NullableType<string>
+    github: NullableType<string>
+    vk: NullableType<string>
+    facebook: NullableType<string>
+    instagram: NullableType<string>
+    twitter: NullableType<string>
+    website: NullableType<string>
+    youtube: NullableType<string>
+    mainLink: NullableType<string>
+}
+export type PhotosType = {
+    small: NullableType<string>
+    large: NullableType<string>
+}
+export type ProfileType = {
+    aboutMe: string
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}

@@ -25,7 +25,7 @@ const AddPost: React.FC<InjectedFormProps<FromDataType>> = (props: any) => {
             <Text name='addNewPost' component={Textarea}
                   placeholder='Enter You Comment' validate={[requiredField, maxLength10, minLength1]}/>
             <div>
-                <button>Add post</button>
+                {/*<button>Add post</button>*/}
             </div>
         </FormWrapper>
     )

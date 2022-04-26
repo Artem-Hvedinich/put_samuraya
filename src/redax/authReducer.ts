@@ -1,55 +1,39 @@
 import {authAPI} from "../API/api";
 import {stopSubmit} from "redux-form";
 import {Dispatch} from "redux";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AppThunkType} from "./reduxStore";
 
-// export type AuthLoginType = {
-//     resultCode: string
-//     messages: string[]
-//     data: {
-//         userId: number
-//     }
-// }
-
-export type DataType = {
-    id: number
-    email: string
-    login: string
-    isAuth: boolean
-}
-
-let initialState: DataType = {
+const initialState: DataAuthType = {
     id: 0,
     email: '',
     login: '',
     isAuth: false,
 }
 
-export const authReducer = (state = initialState, action: setUserDataType) => {
-    switch (action.type) {
-        case 'SET_USER_DATA': {
-            return {
-                ...state, ...action.payload
-            }
+const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+        setUserData(state, action: PayloadAction<DataAuthType>) {
+            return {...state, ...action.payload}
         }
     }
-    return state
-}
+})
 
 
-type setUserDataType = ReturnType<typeof setUserData>
-export const setUserData = (id: number, email: string, login: string, isAuth: boolean) => ({
-    type: 'SET_USER_DATA', payload: {id, email, login, isAuth},
-} as const)
+export const authReducer = slice.reducer
+export const {setUserData} = slice.actions
 
-export const getAuthUserData = () => async (dispatch: Dispatch) => {
+export const getAuthUserData = (): AppThunkType => async (dispatch) => {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
         let {id, email, login} = res.data.data
-        dispatch(setUserData(id, email, login, true))
+        dispatch(setUserData({id, email, login, isAuth: true}))
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+export const login = (email: string, password: string, rememberMe: boolean): AppThunkType => async (dispatch) => {
     const res = await authAPI.login(email, password, rememberMe)
     if (res.data.resultCode === 0) {
         dispatch(getAuthUserData())
@@ -58,10 +42,20 @@ export const login = (email: string, password: string, rememberMe: boolean) => a
     }
 }
 
-export const logout = () =>
+export const logout = (): AppThunkType =>
     async (dispatch: Dispatch) => {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
-            dispatch(setUserData(0, '', '', false))
+            dispatch(setUserData({id: null, email: null, login: null, isAuth: false}))
         }
     }
+
+//types
+export type DataAuthType = {
+    id: NullableType<number>
+    email: NullableType<string>
+    login: NullableType<string>
+    isAuth: boolean
+}
+
+export type NullableType<T> = null | T

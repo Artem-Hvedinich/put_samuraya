@@ -5,6 +5,11 @@ export const Button = styled.button<{ width?: number, height?: number, bgColor?:
   height: ${({height}) => height}vw;
   background-color: ${({bgColor}) => bgColor};
   color: ${({color}) => color};
-  border-radius: 10px;
+  font-size: 0.8vw;
+  border-radius: 0.3vw;
   border: none;
-  cursor: pointer`
+  cursor: pointer;
+  opacity: 0.8;
+  :hover {
+    opacity: 1;
+  }`

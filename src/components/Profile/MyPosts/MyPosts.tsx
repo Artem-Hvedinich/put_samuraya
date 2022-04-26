@@ -21,7 +21,7 @@ export const MyPosts = React.memo(() => {
     const dispatch = useDispatch()
     const post = useSelector<AppStoreType, PostType[]>(s => s.myPostPage.posts)
     const newPostText = (value: any) => {
-        dispatch(addPost(value.addNewPost))
+        dispatch(addPost({addNewPost:value.addNewPost}))
     }
 
     return (

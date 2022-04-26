@@ -1,19 +1,7 @@
 import {v1} from "uuid"
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export type MessagePageType = {
-    dialogs: Array<dialogsType>
-    messages: Array<messageType>
-}
-export type dialogsType = {
-    id: string,
-    name: string,
-    // img: string,
-}
-export type messageType = {
-    id: string,
-    message: string,
-}
-let initialState: MessagePageType = {
+const initialState: MessagePageType = {
     dialogs: [
         {id: v1(), name: 'Dimych'},
         {id: v1(), name: 'Andrey'},
@@ -33,20 +21,28 @@ let initialState: MessagePageType = {
     ],
 }
 
-export const dialogsReducer = (state = initialState,
-                               action: ActionType) => {
-    switch (action.type) {
-        case 'SEND_MESSAGE': {
-            let body = action.newMessageBody
-            return {
-                ...state,
-                messages: [...state.messages, {id: v1(), message: body}]
-            }
+const slice = createSlice({
+    name: 'dialogs',
+    initialState: initialState,
+    reducers: {
+        sendMessageCreator(state, action: PayloadAction<{ newMessageBody: string }>) {
+            state.messages = [...state.messages, {id: v1(), message: action.payload.newMessageBody}]
         }
     }
-    return state
-}
-type ActionType = sendMessageCreatorType
+})
+export const dialogsReducer = slice.reducer
+export const {sendMessageCreator} = slice.actions
 
-type sendMessageCreatorType = ReturnType<typeof sendMessageCreator>
-export const sendMessageCreator = (newMessageBody: string) => ({type: 'SEND_MESSAGE', newMessageBody} as const)
+//types
+export type MessagePageType = {
+    dialogs: Array<dialogsType>
+    messages: Array<messageType>
+}
+export type dialogsType = {
+    id: string,
+    name: string,
+}
+export type messageType = {
+    id: string,
+    message: string,
+}

@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
-import {DataType, getAuthUserData, logout} from "../../redax/authReducer";
+import {DataAuthType, logout} from "../../redax/authReducer";
 import styled from "styled-components";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 
@@ -44,7 +44,7 @@ const Button = styled.button`
   background: none`
 
 export const Header = () => {
-    const auth = useSelector<AppStoreType, DataType>(s => s.auth)
+    const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
     const dispatch = useDispatch()
     const logoutClick = () => {
         dispatch(logout())

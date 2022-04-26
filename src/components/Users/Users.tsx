@@ -25,7 +25,6 @@ export const Users = () => {
 
     return (
         <div className={s.users}>
-
             {UsersPage.isFetching ? <Preloader/> : null}
             <div className={s.pages}>
                 <Pagination totalItemsCount={UsersPage.totalUsersCount} pageSize={UsersPage.pageSize}

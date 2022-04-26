@@ -4,9 +4,11 @@ import {Header} from "./components/Header/Header";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "./redax/reduxStore";
 import styled from "styled-components";
-import {initializedApp} from "./redax/appReducer";
-import {Preloader} from "./components/common/Preloader/Preloader";
 import {RoutersWrapper} from "./components/RoutesWrapper/RoutersWrapper";
+import {DataAuthType} from "./redax/authReducer";
+import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
+import {initializeApp} from "./redax/appReducer";
+import {LinearProgress} from "@mui/material";
 
 const NetworkWrapper = styled.div`
   display: flex;
@@ -23,22 +25,21 @@ const MainWrapper = styled.div`
 `
 
 export const App = () => {
-    const initialized = useSelector<AppStoreType, boolean>(s => s.app.initialized)
-    const isAuth = useSelector<AppStoreType, boolean>(s => s.auth.isAuth)
-    const userId = useSelector<AppStoreType, number>(s => s.auth.id)
+    const initialized = useSelector<AppStoreType, boolean>(s => s.app.isInitialized)
+    const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
     const dispatch = useDispatch()
-
     useEffect(() => {
-        dispatch(initializedApp())
+        dispatch(initializeApp())
     }, [])
 
-    if (!initialized) return <Preloader/>
+    if (!initialized) return <LinearProgress/>
     return (
         <NetworkWrapper>
+            <ErrorSnackbar/>
             <Header/>
             <MainWrapper>
-                <Navbar userId={userId}/>
-                <RoutersWrapper userId={userId} isAuth={isAuth}/>
+                <Navbar authId={auth.id}/>
+                <RoutersWrapper authId={auth.id} isAuth={auth.isAuth}/>
             </MainWrapper>
         </NetworkWrapper>
     )

@@ -1,9 +1,13 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import usersImg from "../../../assets/images/users_images.png"
 import {Status} from "./Status";
-import {ProfileType} from "../../../redax/profileReducer";
-import {Job} from "./Job";
+import {editModeAction, ProfileType} from "../../../redax/profileReducer";
 import styled from "styled-components";
+import {NullableType} from "../../../redax/authReducer";
+import {InputFile} from "../../../assets/InputFile";
+import {ProfileDataForm} from "./ProfileDataForm";
+import {useDispatch} from "react-redux";
+import {Button} from "../../../assets/styledComponent/Button";
 
 const ProfileInfoWrapper = styled.div`
   display: flex;
@@ -11,65 +15,81 @@ const ProfileInfoWrapper = styled.div`
   width: 50vw; `
 const AvatarWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 15vw;
-  height: 15vw;
+  min-height: 19vw;
   background-color: rgba(255, 255, 255, 0.19);
   box-shadow: 0 0 3px black;
   border-radius: 5px;
   padding: 1vw`
+
 const Img = styled.img`
-  border-radius: 13px;
   width: 100%;
-  height: 100%;`
+  border-radius: 13px;`
+
 const InfoBlock = styled.div`
   width: 34vw;
   background-color: rgba(255, 255, 255, 0.19);
   box-shadow: 0 0 3px black;
   border-radius: 5px;
   padding: 1.5vw;`
-const UrlBlock = styled.div`
-  display: grid;
-  grid-template-columns: 10vw 10vw 10vw;`
 
-export const ProfileInfo = ({profile}: { profile: ProfileType }) => {
-    const content = () => {
-
-        if (profile.userId) {
-            return (
-                <ProfileInfoWrapper>
-                    <AvatarWrapper>
-                        <Img src={(profile.photos?.large === null) ? usersImg : profile.photos?.large}/>
-                    </AvatarWrapper>
-
-                    <InfoBlock>
-                        <h1>{profile.fullName}</h1>
-                        <Status/>
-                        <p>{profile?.aboutMe}</p>
-                        <p>Соц Сети:</p>
-                        <UrlBlock>
-                            <a href={profile?.contacts?.vk}>Vk</a>
-                            <a href={profile?.contacts?.github}>github</a>
-                            <a href={profile?.contacts?.instagram}>instagram</a>
-                            <a href={profile?.contacts?.facebook}>facebook</a>
-                            <a href={profile?.contacts?.mainLink}>mainLink</a>
-                            <a href={profile?.contacts?.twitter}>twitter</a>
-                            <a href={profile?.contacts?.website}>website</a>
-                            <a href={profile?.contacts?.youtube}>youtube</a>
-                        </UrlBlock>
-                        <Job profile={profile}/>
-                    </InfoBlock>
-                </ProfileInfoWrapper>
-            )
-        } else {
-            return <h1>Sorry, Error 404</h1>
+export const ProfileInfo = ({profile, authId, savePhoto, editMode}
+                                : { profile: ProfileType, authId: NullableType<number>, savePhoto: (file: string | Blob) => void, editMode: boolean }) => {
+    const dispatch = useDispatch()
+    const mainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files !== null) {
+            savePhoto(e.target.files[0])
         }
     }
+    const isOwner: boolean = authId === profile.userId
 
+    if (profile.userId) {
+        return (
+            <ProfileInfoWrapper>
+                <AvatarWrapper>
+                    <Img src={profile.photos?.large || usersImg}/>
+                    {isOwner &&
+                        <>
+                            <InputFile onChange={mainPhotoSelected}>Loading your photo</InputFile>
+                            <Button bgColor={'#4D655BFF'} width={13} height={1.5}
+                                    onClick={() => dispatch(editModeAction({editMode: true}))}>
+                                Edit profile</Button>
+                        </>}
+                </AvatarWrapper>
+
+                {editMode ? <ProfileDataForm profile={profile}/> :
+                    <ProfileData profile={profile}/>}
+            </ProfileInfoWrapper>
+        )
+    } else {
+        return <h1>Sorry, Error 404</h1>
+    }
+}
+
+const ProfileData = ({profile}: { profile: ProfileType }) => {
 
     return (
-        content()
+        <InfoBlock>
+            <h1>{profile.fullName}</h1>
+            <Status/>
+            <p>{profile?.aboutMe}</p>
+            <p>Соц Сети:</p>
 
-    )
+            {/*Contact Block in profile*/}
+            {profile.contacts && Object.keys(profile.contacts).map((key) => {
+                return <span key={key}>
+                {profile.contacts[key] !== '' && profile.contacts[key] !== null &&
+                    <>
+                        <span>{key}: </span>
+                        <span>{profile.contacts && profile.contacts[key] && profile.contacts[key]}</span>
+                    </>
+                }</span>
+            })}
+
+            <p>Ищу ли я работу:{profile?.lookingForAJob ? ' Yes' : ' No'}</p>
+            {profile?.lookingForAJob && <p>Предпочтения в работе: {profile?.lookingForAJobDescription}</p>}
+        </InfoBlock>)
 }
