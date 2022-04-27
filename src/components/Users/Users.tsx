@@ -6,7 +6,6 @@ import {follow, getUsers, unfollow, UsersPageType} from "../../redax/usersReduce
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
-import {Preloader} from "../common/Preloader/Preloader";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import {Pagination} from "./Pagination";
 
@@ -25,7 +24,6 @@ export const Users = () => {
 
     return (
         <div className={s.users}>
-            {UsersPage.isFetching ? <Preloader/> : null}
             <div className={s.pages}>
                 <Pagination totalItemsCount={UsersPage.totalUsersCount} pageSize={UsersPage.pageSize}
                             onPageChanged={onPageChanged} portionSize={10} currentPage={UsersPage.currentPage}/>

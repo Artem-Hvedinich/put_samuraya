@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {useDispatch} from "react-redux";
 import {ProfileType, saveProfile} from "../../../redax/profileReducer";
 import {Button} from "../../../assets/styledComponent/Button";
+import {FormikComponents} from "../../../assets/FormikComponents";
 
 const InfoBlock = styled.div`
   position: fixed;
@@ -50,15 +51,15 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
         <InfoBlock>
             <form onSubmit={formik.handleSubmit}>
 
-                <FormikComponent componentType={'input'} id="fullName" name="fullName" inputType="text"
+                <FormikComponents widthComponent={'20'} componentType={'input'} id="fullName" name="fullName" inputType="text"
                                  onChange={formik.handleChange} value={formik.values.fullName}
                                  text={'Full Name: '}/>
                 {formik.touched.fullName && formik.errors.fullName ? <Error>{formik.errors.fullName}</Error> : null}
 
-                <FormikComponent componentType={'input'} id="lookingForAJob" name="lookingForAJob"
+                <FormikComponents widthComponent={'20'} componentType={'input'} id="lookingForAJob" name="lookingForAJob"
                                  inputType="checkbox"
                                  onChange={formik.handleChange} text={'Looking for a job:'}/>
-                <FormikComponent componentType={'textarea'} id="lookingForAJobDescription"
+                <FormikComponents widthComponent={'20'} componentType={'textarea'} id="lookingForAJobDescription"
                                  name="lookingForAJobDescription"
                                  onChange={formik.handleChange} value={formik.values.lookingForAJobDescription}
                                  text={'Job description:'}/>
@@ -66,14 +67,13 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
                 {profile.contacts && Object.keys(profile.contacts).map((key) => {
                     console.log(`contacts.${key}`)
                     return <div key={key}>
-                        <FormikComponent key={key} componentType={"input"} id={`contact.${key}`}
+                        <FormikComponents widthComponent={'20'} key={key} componentType={"input"} id={`contact.${key}`}
                                          name={`contacts.${key}`} text={key} onChange={formik.handleChange}
-                            // value={profile.contacts[key] as string}
                         />
                     </div>
                 })}
 
-                <FormikComponent componentType={'textarea'} id="aboutMe" name="aboutMe"
+                <FormikComponents widthComponent={'20'} componentType={'textarea'} id="aboutMe" name="aboutMe"
                                  onChange={formik.handleChange} value={formik.values.aboutMe}
                                  text={'About me:'}
                 />
@@ -83,46 +83,4 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
             </form>
         </InfoBlock>
     )
-}
-
-
-const FormikComponentWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1vw;
-  width: 100%;`
-const Input = styled.input`
-  width: 20vw`
-const Textarea = styled.textarea`
-  width: 20vw;
-  height: 5vw;
-  resize: none;`
-
-const LabelWrapper = styled.span`
-`
-
-export type ComponentType = 'input' | 'textarea'
-
-export const FormikComponent = ({id, name, inputType, onChange, value, text, componentType}
-                                    : {
-    id: string, name: string, inputType?: string,
-    onChange: any, value?: string, text: string, componentType: ComponentType
-}) => {
-
-    return <FormikComponentWrapper>
-        <LabelWrapper>
-            <label htmlFor={id}>{text}</label>
-        </LabelWrapper>
-        <span>
-            {componentType === 'input' &&
-                <Input id={id} name={name} type={inputType}
-                       onChange={onChange} value={value}
-                />}
-            {componentType === 'textarea' &&
-                <Textarea id={id} name={name}
-                          onChange={onChange} value={value}
-                />}
-        </span>
-    </FormikComponentWrapper>
 }

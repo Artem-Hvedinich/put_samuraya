@@ -78,12 +78,14 @@ export const getUserProfile = (userId: string): AppThunkType => async (dispatch)
     dispatch(setAppStatus({status: 'loading'}))
     const res = await profileApi.getProfile(userId)
     dispatch(setUserProfile({profile: res.data}))
+    dispatch(setAppStatus({status: 'succeeded'}))
 }
 
 export const getUserStatus = (userId: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatus({status: 'loading'}))
     const res = await profileApi.getStatus(userId)
     dispatch(setStatus({status: res.data}))
+    dispatch(setAppStatus({status: 'succeeded'}))
 }
 
 export const updateUserStatus = (status: string): AppThunkType => async (dispatch) => {
@@ -121,8 +123,8 @@ export const saveProfile = (profile: ProfileType, editMode: boolean): AppThunkTy
     const res = await profileApi.saveProfile(profile)
     try {
         if (res.data.resultCode === 0) {
-            dispatch(editModeAction({editMode}))
             dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(editModeAction({editMode}))
         } else handleServerAppError(res.data, dispatch)
     } catch (error) {
         handleServerNetworkError(error, dispatch)

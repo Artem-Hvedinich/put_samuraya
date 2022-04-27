@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {UserType} from "../redax/usersReducer";
 import {ProfileType} from "../redax/profileReducer";
-import {DataAuthType} from "../redax/authReducer";
+import {DataAuthType, NullableType} from "../redax/authReducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
@@ -51,12 +51,18 @@ export const authAPI = {
     me() {
         return instance.get<ResponseType<DataAuthType>>(`auth/me`)
     },
-    login(email: string, password: string, rememberMe: boolean) {
-        return instance.post<ResponseType<{ id: string }>>(`auth/login`, {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean, captcha: NullableType<string>) {
+        return instance.post<ResponseType<{ id: string }>>(`auth/login`, {email, password, rememberMe, captcha})
     },
     logout() {
         return instance.delete<ResponseType<{}>>(`auth/login`)
     },
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get<{ url: string }>('security/get-captcha-url')
+    }
 }
 
 export type ResponseType<D = {}> = {

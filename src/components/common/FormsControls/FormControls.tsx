@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import {Error} from "../../../assets/Wrapper";
 import {Field} from "redux-form";
+
+export const Error = styled.div`
+  color: red`
 
 const TextareaWrapper = styled.textarea<{ hasError: string }>`
   border: ${props => props.hasError && '2px solid red'};

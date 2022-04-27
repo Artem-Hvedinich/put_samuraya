@@ -7,7 +7,7 @@ import styled from "styled-components";
 import {RoutersWrapper} from "./components/RoutesWrapper/RoutersWrapper";
 import {DataAuthType} from "./redax/authReducer";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
-import {initializeApp} from "./redax/appReducer";
+import {initializeApp, RequestStatusType} from "./redax/appReducer";
 import {LinearProgress} from "@mui/material";
 
 const NetworkWrapper = styled.div`
@@ -17,24 +17,26 @@ const NetworkWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(to right, rgb(66, 63, 63), rgb(174, 243, 214), rgba(66, 63, 63, 0.54));
-  flex-wrap: wrap;
-`
+  flex-wrap: wrap;`
 const MainWrapper = styled.div`
   display: flex;
-  width: 60vw;
-`
-
+  width: 60vw;`
+const LinearProgressWrapper = styled(LinearProgress)`
+  position: fixed;
+  width: 100%`
 export const App = () => {
     const initialized = useSelector<AppStoreType, boolean>(s => s.app.isInitialized)
     const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
+    const status = useSelector<AppStoreType, RequestStatusType>(s => s.app.status)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(initializeApp())
     }, [])
 
-    if (!initialized) return <LinearProgress/>
+    if (!initialized) return <LinearProgressWrapper/>
     return (
         <NetworkWrapper>
+            {status === 'loading' && <LinearProgressWrapper/>}
             <ErrorSnackbar/>
             <Header/>
             <MainWrapper>

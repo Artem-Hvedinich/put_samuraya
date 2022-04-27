@@ -5,7 +5,6 @@ import {getUserProfile, getUserStatus, ProfilePageType, savePhotoTC,} from "../.
 import {useDispatch, useSelector,} from "react-redux";
 import {Navigate, useParams} from "react-router-dom";
 import {AppStoreType} from "../../redax/reduxStore";
-import {Preloader} from "../common/Preloader/Preloader";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import {NullableType} from "../../redax/authReducer";
 
@@ -23,7 +22,6 @@ const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<numbe
         }
     }, [userId, myPostPage.editMode])
 
-    if (!myPostPage.profile) return <Preloader/>
     if (!isAuth) return <Navigate to={PATH.Login}/>
 
 

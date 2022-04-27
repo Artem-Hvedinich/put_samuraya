@@ -29,16 +29,19 @@ export const appReducer = slice.reducer
 export const {setAppStatus, setAppError, setInitialized} = slice.actions
 
 export const initializeApp = (): AppThunkType => async dispatch => {
+    dispatch(setAppStatus({status: 'loading'}))
     const res = await authAPI.me()
     try {
         if (res.data.resultCode === 0) {
             dispatch(setInitialized({isInitialized: false}))
             dispatch(getAuthUserData())
+            dispatch(setAppStatus({status: 'succeeded'}))
         } else handleServerAppError(res.data, dispatch)
     } catch (error) {
         handleServerNetworkError(error, dispatch)
     } finally {
         dispatch(setInitialized({isInitialized: true}))
+        dispatch(setAppStatus({status: 'succeeded'}))
     }
 }
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
