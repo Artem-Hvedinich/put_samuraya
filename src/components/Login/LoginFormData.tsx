@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FormikComponents} from "../../assets/FormikComponents";
 import React from "react";
 import {AppStoreType} from "../../redax/reduxStore";
+import {Button} from '../../assets/styledComponent/Button'
 
 const TextWrapper = styled.div`
   width: 15vw;
@@ -59,12 +60,12 @@ export const LoginForm = () => {
                 <FormikComponents widthComponent={'10'} text={'Password: '} componentType={'input'} id="password"
                                   name="password" inputType="password"
                                   onChange={formik.handleChange} value={formik.values.password}/>
-                {formik.errors.password ? <Error>{formik.errors.password}</Error> : null}
+                {formik.touched.password && formik.errors.password ? <Error>{formik.errors.password}</Error> : null}
             </TextWrapper>
             <TextWrapper>
-                <FormikComponents text={'Remember Me: '} componentType={'input'} id="password" name="password"
+                <FormikComponents text={'Remember Me: '} componentType={'input'} id="rememberMe" name="rememberMe"
                                   inputType="checkbox"
-                                  onChange={formik.handleChange} value={formik.values.password}/>
+                                  onChange={formik.handleChange}/>
             </TextWrapper>
             {captchaUrl && <>
                 <img src={captchaUrl} alt={'captchaUrl'}/>
@@ -73,7 +74,7 @@ export const LoginForm = () => {
                                   inputType="captcha"
                                   onChange={formik.handleChange}/>
             </>}
-            <button type={'submit'}>Login</button>
+            <Button bgColor={'#4d655b'} width={3} height={1.3} type={'submit'}>Login</Button>
         </form>
     )
 }

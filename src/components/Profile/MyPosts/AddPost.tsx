@@ -1,28 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Textarea} from "../../common/FormsControls/FormControls";
+import {useFormik} from "formik";
+import {addPost} from "../../../redax/profileReducer";
+import {useDispatch} from "react-redux";
+import {FormikComponents} from "../../../assets/FormikComponents";
+import {Button} from "../../../assets/styledComponent/Button";
 
-const Text = styled(Field)`
-  width: 35vw;
-  height: 10vw;
-  resize: none;
-  font-size: 15px;
-`
+const FormWrapper = styled.form<{ click: boolean }>`
+  display: flex;
+  align-items: center;
+  opacity: ${({click}) => click ? 0 : 1};
+  transition: all 1s;`
 
-type FromDataType = {
-    addNewPost: string
-}
+export const AddPost = ({click}: { click: boolean }) => {
+    const dispatch = useDispatch()
+    const formik = useFormik({
+        initialValues: {
+            addPost: ''
+        },
 
-const AddPost: React.FC<InjectedFormProps<FromDataType>> = (props: any) => {
+        onSubmit: values => {
+            dispatch(addPost({addNewPost: values.addPost}))
+        }
+    })
+
     return (
-        <form onSubmit={props.handleSubmit}>
-            <Text name='addNewPost' component={Textarea}
-                  placeholder='Enter You Comment'/>
-            <div>
-                {/*<button>Add post</button>*/}
-            </div>
-        </form>
+        <FormWrapper click={click} onSubmit={formik.handleSubmit}>
+            <FormikComponents name='addPost' id={'addPost'} widthComponent={'25'} heightComponent={'2'}
+                              componentType={'textarea'}
+                              inputType="password" onChange={formik.handleChange} value={formik.values.addPost}/>
+            <Button bgColor={'#4d655b'} type={'submit'} width={4} height={1}>Add
+                post</Button>
+        </FormWrapper>
     )
 }
-export const AddPostRedux = reduxForm<FromDataType>({form: 'addNewPost'})(AddPost)

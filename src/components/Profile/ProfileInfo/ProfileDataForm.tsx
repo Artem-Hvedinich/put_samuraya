@@ -55,7 +55,10 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
                                  onChange={formik.handleChange} value={formik.values.fullName}
                                  text={'Full Name: '}/>
                 {formik.touched.fullName && formik.errors.fullName ? <Error>{formik.errors.fullName}</Error> : null}
-
+                <FormikComponents widthComponent={'20'} componentType={'textarea'} id="aboutMe" name="aboutMe"
+                                  onChange={formik.handleChange} value={formik.values.aboutMe}
+                                  text={'About me:'}
+                />
                 <FormikComponents widthComponent={'20'} componentType={'input'} id="lookingForAJob" name="lookingForAJob"
                                  inputType="checkbox"
                                  onChange={formik.handleChange} text={'Looking for a job:'}/>
@@ -73,10 +76,7 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
                     </div>
                 })}
 
-                <FormikComponents widthComponent={'20'} componentType={'textarea'} id="aboutMe" name="aboutMe"
-                                 onChange={formik.handleChange} value={formik.values.aboutMe}
-                                 text={'About me:'}
-                />
+
                 <div style={{width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '1vw'}}>
                     <Button bgColor={'rgba(77, 101, 91, 0.78);'} width={4} height={1} type="submit">Save</Button>
                 </div>

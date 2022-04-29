@@ -5,30 +5,36 @@ import {statusEditModeAction, updateUserStatus} from "../../../redax/profileRedu
 import styled from "styled-components";
 import {NullableType} from "../../../redax/authReducer";
 import {useFormik} from "formik";
+import {Button} from '../../../assets/styledComponent/Button'
 
 const Input = styled.input`
   width: 10vw;
   height: 1.5vw;
   font-size: 1vw;
-  background-color: rgba(255, 255, 255, 0.4);
-  border: none;`
+  border: none;
+  background-color: rgba(77, 101, 91, 0.25)`
+const StatusText = styled.p`
+  padding: 0.1vw 1vw;
 
+  :hover {
+    background-color: rgba(128, 128, 128, 0.05);
+    border-radius: 0.3vw;
+  }`
 export const Status = () => {
     const status = useSelector<AppStoreType, NullableType<string>>(s => s.myPostPage.status)
     const statusEditMode = useSelector<AppStoreType, NullableType<boolean>>(s => s.myPostPage.statusEditMode)
 
     const dispatch = useDispatch()
-    // const [editMode, setEditMode] = useState(false)
     const formik = useFormik({
         initialValues: {statusValue: ''},
         onSubmit: (values) => {
             dispatch(updateUserStatus(values.statusValue))
         }
     })
+
     const activateEditMode = () => {
         dispatch(statusEditModeAction({statusEditMode: true}))
     }
-
 
     return (
         statusEditMode ?
@@ -38,7 +44,10 @@ export const Status = () => {
                        id="email"
                        name="statusValue"
                        type="text"/>
+                <Button style={{marginLeft: '2vw'}} type={'submit'} width={4} height={1.5} color={'#fff'}
+                        bgColor={'#4d655b'}>Add</Button>
             </form>
-            : <p style={{backgroundColor:'rgba(77, 101, 91, 0.5)'}} onDoubleClick={activateEditMode}>{`My status: ${status}` || "No status"}</p>
+            : <StatusText
+                onDoubleClick={activateEditMode}>{status !== '' ? status : 'Set status'}</StatusText>
     )
 }

@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import Navbar from "./components/Navbar/Navbar";
 import {Header} from "./components/Header/Header";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "./redax/reduxStore";
@@ -16,14 +15,17 @@ const NetworkWrapper = styled.div`
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(to right, rgb(66, 63, 63), rgb(174, 243, 214), rgba(66, 63, 63, 0.54));
+  background-color: #e0dede;
   flex-wrap: wrap;`
+
 const MainWrapper = styled.div`
   display: flex;
-  width: 60vw;`
+  justify-content: center;`
+
 const LinearProgressWrapper = styled(LinearProgress)`
   position: fixed;
-  width: 100%`
+  width: 100%;`
+
 export const App = () => {
     const initialized = useSelector<AppStoreType, boolean>(s => s.app.isInitialized)
     const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
@@ -33,14 +35,13 @@ export const App = () => {
         dispatch(initializeApp())
     }, [])
 
-    if (!initialized) return <LinearProgressWrapper/>
+    if (!initialized) return <LinearProgressWrapper color={'success'}/>
     return (
         <NetworkWrapper>
-            {status === 'loading' && <LinearProgressWrapper/>}
             <ErrorSnackbar/>
+            {status === 'loading' && <LinearProgressWrapper color={'success'}/>}
             <Header/>
             <MainWrapper>
-                <Navbar authId={auth.id}/>
                 <RoutersWrapper authId={auth.id} isAuth={auth.isAuth}/>
             </MainWrapper>
         </NetworkWrapper>

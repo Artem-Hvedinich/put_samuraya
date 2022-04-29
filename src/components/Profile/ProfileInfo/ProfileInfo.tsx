@@ -8,33 +8,28 @@ import {InputFile} from "../../../assets/InputFile";
 import {ProfileDataForm} from "./ProfileDataForm";
 import {useDispatch} from "react-redux";
 import {Button} from "../../../assets/styledComponent/Button";
+import {BlockWrapper} from "../../../assets/styledComponent/Wrappers";
 
 const ProfileInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50vw; `
-const AvatarWrapper = styled.div`
+
+const AvatarWrapper = styled(BlockWrapper)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 15vw;
-  min-height: 19vw;
-  background-color: rgba(255, 255, 255, 0.19);
-  box-shadow: 0 0 3px black;
-  border-radius: 5px;
-  padding: 1vw`
+  padding: 1vw;
+  min-height: 19vw;`
 
 const Img = styled.img`
   width: 100%;
   border-radius: 13px;`
 
-const InfoBlock = styled.div`
-  width: 34vw;
-  background-color: rgba(255, 255, 255, 0.19);
-  box-shadow: 0 0 3px black;
-  border-radius: 5px;
-  padding: 1.5vw;`
+const InfoBlock = styled(BlockWrapper)`
+  width: 34vw;`
 
 export const ProfileInfo = ({profile, authId, savePhoto, editMode}
                                 : { profile: ProfileType, authId: NullableType<number>, savePhoto: (file: string | Blob) => void, editMode: boolean }) => {
@@ -46,49 +41,43 @@ export const ProfileInfo = ({profile, authId, savePhoto, editMode}
     }
     const isOwner: boolean = authId === profile.userId
 
-    if (profile.userId) {
-        return (
-            <ProfileInfoWrapper>
-                <AvatarWrapper>
-                    <Img src={profile.photos?.large || usersImg}/>
-                    {isOwner &&
-                        <>
-                            <InputFile onChange={mainPhotoSelected}>Loading your photo</InputFile>
-                            <Button bgColor={'#4D655BFF'} width={13} height={1.5}
-                                    onClick={() => dispatch(editModeAction({editMode: true}))}>
-                                Edit profile</Button>
-                        </>}
-                </AvatarWrapper>
-
-                {editMode ? <ProfileDataForm profile={profile}/> :
-                    <ProfileData profile={profile}/>}
-            </ProfileInfoWrapper>
-        )
-    } else {
-        return <h1>Sorry, Error 404</h1>
-    }
+    return (
+        <ProfileInfoWrapper>
+            <AvatarWrapper>
+                <Img src={profile.photos?.large || usersImg}/>
+                {isOwner && <>
+                    <InputFile onChange={mainPhotoSelected}>Loading your photo</InputFile>
+                    <Button bgColor={'#4D655BFF'} width={13} height={1.5}
+                            onClick={() => dispatch(editModeAction({editMode: true}))}>
+                        Edit profile</Button></>}
+            </AvatarWrapper>
+            {editMode ? <ProfileDataForm profile={profile}/> :
+                <ProfileData profile={profile}/>}
+        </ProfileInfoWrapper>
+    )
 }
 
 const ProfileData = ({profile}: { profile: ProfileType }) => {
-
     return (
         <InfoBlock>
             <h1>{profile.fullName}</h1>
             <Status/>
-            <p>{profile?.aboutMe}</p>
-            <p>Соц Сети:</p>
+            <br/>
+            <p>Обо мне: {profile?.aboutMe}</p>
+
 
             {/*Contact Block in profile*/}
             {profile.contacts && Object.keys(profile.contacts).map((key) => {
                 return <span key={key}>
                 {profile.contacts[key] !== '' && profile.contacts[key] !== null &&
                     <>
-                        <span>{key}: </span>
-                        <span>{profile.contacts && profile.contacts[key] && profile.contacts[key]}</span>
+                        <p>Мои соцсети:</p>
+                        <p>{key}: </p>
+                        <p>{profile.contacts && profile.contacts[key] && profile.contacts[key]}</p>
                     </>
                 }</span>
             })}
-
+            <br/>
             <p>Ищу ли я работу:{profile?.lookingForAJob ? ' Yes' : ' No'}</p>
             {profile?.lookingForAJob && <p>Предпочтения в работе: {profile?.lookingForAJobDescription}</p>}
         </InfoBlock>)

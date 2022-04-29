@@ -5,16 +5,16 @@ import {AppStoreType} from "../../redax/reduxStore";
 import {DataAuthType, logout} from "../../redax/authReducer";
 import styled from "styled-components";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
+import Navbar from "../Navbar/Navbar";
 
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: center;
   width: 100vw;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgb(255, 255, 255);
   margin-bottom: 1vw;
   padding: 0.4vw 0;
-  box-shadow: 0 0 3px black;
-`
+  box-shadow: 0 0 3px black;`
 const HeaderBlock = styled.div`
   display: flex;
   justify-content: space-between;
@@ -26,8 +26,6 @@ const LogoBlock = styled.div`
 const Img = styled.img`
   width: 4vw;
   padding-right: 1vw;`
-const TextWrapper = styled.span`
-  font-size: 1vw;`
 const NavLinkWrapper = styled(NavLink)`
   font-size: 1vw;
   cursor: pointer;
@@ -41,7 +39,12 @@ const Button = styled.button`
   padding: 0.2vw 0.5vw;
   border: 0.1vw solid black;
   border-radius: 0.5vw;
-  background: none`
+  background: none;
+  cursor: pointer;
+  :hover {
+    background-color: #cccaca;
+    transition: background-color 0.5s;
+  }`
 
 export const Header = () => {
     const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
@@ -53,12 +56,11 @@ export const Header = () => {
         <HeaderWrapper>
             <HeaderBlock>
                 <LogoBlock>
-                    <Img
-                        src='https://cdn-icons-png.flaticon.com/512/136/136436.png'/>
-                    <TextWrapper> AiR Network</TextWrapper>
+                    <NavLink to={PATH.Profile + `/${auth.id}`}><Img
+                        src='https://cdn-icons-png.flaticon.com/512/136/136436.png'/></NavLink>
                 </LogoBlock>
+                <Navbar authId={auth.id}/>
                 {auth.isAuth ? <div>
-                        <TextWrapper>{auth.login}</TextWrapper>
                         <Button onClick={logoutClick}>Logout</Button>
                     </div>
                     : <NavLinkWrapper to={PATH.Login}>Login</NavLinkWrapper>}

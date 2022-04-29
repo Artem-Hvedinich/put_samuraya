@@ -12,7 +12,6 @@ const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<numbe
     const myPostPage = useSelector<AppStoreType, ProfilePageType>(s => s.myPostPage)
     const dispatch = useDispatch()
     const {userId} = useParams<{ userId: string }>()
-
     const savePhoto = useCallback((file: string | Blob) => dispatch(savePhotoTC(file)), [])
 
     useEffect(() => {
@@ -22,11 +21,10 @@ const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<numbe
         }
     }, [userId, myPostPage.editMode])
 
+
     if (!isAuth) return <Navigate to={PATH.Login}/>
-
-
     return (
-        <div style={{width: '100%'}}>
+        <div>
             <ProfileInfo profile={myPostPage.profile} editMode={myPostPage.editMode} authId={authId}
                          savePhoto={savePhoto}/>
             <MyPosts/>

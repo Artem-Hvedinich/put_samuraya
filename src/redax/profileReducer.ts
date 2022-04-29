@@ -164,7 +164,7 @@ export type PhotosType = {
 }
 export type ProfileType = {
     aboutMe: string
-    userId: number
+    userId: NullableType<number>
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string

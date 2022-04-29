@@ -9,7 +9,7 @@ export const Button = styled.button<{ width?: number, height?: number, bgColor?:
   border-radius: 0.3vw;
   border: none;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.9;
   :hover {
     opacity: 1;
   }`
