@@ -2,28 +2,6 @@ import React, {useState} from 'react';
 import {Button} from "../../assets/styledComponent/Button";
 import styled from "styled-components";
 
-const NumbersWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;`
-
-const PageWrap = styled.span<{ active: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2vw;
-  height: 2vw;
-  background: ${({active}) => active && '#ffffff'};
-  border-radius: ${({active}) => active && 50}%;
-  cursor: pointer;
-  font-size: ${({active}) => active ? 18 : 14}px;
-
-  :hover {
-    background: grey;
-    border-radius: 50%;
-    font-size: 18px;
-  }`
 
 export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSize, currentPage}: {
     totalItemsCount: number, pageSize: number, portionSize: number, currentPage: number
@@ -54,3 +32,26 @@ export const Pagination = ({totalItemsCount, pageSize, onPageChanged, portionSiz
         </NumbersWrapper>
     )
 }
+const NumbersWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding-top: 1vw`
+
+const PageWrap = styled.span<{ active: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2vw;
+  height: 2vw;
+  background: ${({active}) => active && '#4d655b'};
+  border-radius: ${({active}) => active && 50}%;
+  cursor: pointer;
+  font-size: ${({active}) => active ? 18 : 14}px;
+
+  :hover {
+    background: grey;
+    border-radius: 50%;
+    font-size: 18px;
+  }`

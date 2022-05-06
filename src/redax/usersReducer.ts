@@ -44,9 +44,6 @@ const slice = createSlice({
                     ? [...state.followingInProgress, action.payload.userId]
                     : state.followingInProgress.filter(id => id !== action.payload.userId)
             }
-            // state.followingInProgress = action.payload.isFetching
-            //     ? [...state.followingInProgress, action.payload.userId]
-            //     : state.followingInProgress.filter(id => id !== action.payload.userId)
         },
     }
 })

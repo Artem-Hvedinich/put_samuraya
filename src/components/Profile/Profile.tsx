@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect} from "react";
+import React, { useEffect} from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPosts} from "./MyPosts/MyPosts";
-import {getUserProfile, getUserStatus, ProfilePageType, savePhotoTC,} from "../../redax/profileReducer";
+import {getUserProfile, getUserStatus, ProfilePageType, } from "../../redax/profileReducer";
 import {useDispatch, useSelector,} from "react-redux";
 import {Navigate, useParams} from "react-router-dom";
 import {AppStoreType} from "../../redax/reduxStore";
@@ -12,7 +12,6 @@ const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<numbe
     const myPostPage = useSelector<AppStoreType, ProfilePageType>(s => s.myPostPage)
     const dispatch = useDispatch()
     const {userId} = useParams<{ userId: string }>()
-    const savePhoto = useCallback((file: string | Blob) => dispatch(savePhotoTC(file)), [])
 
     useEffect(() => {
         if (userId) {
@@ -25,8 +24,7 @@ const Profile = ({isAuth, authId}: { isAuth: boolean, authId: NullableType<numbe
     if (!isAuth) return <Navigate to={PATH.Login}/>
     return (
         <div>
-            <ProfileInfo profile={myPostPage.profile} editMode={myPostPage.editMode} authId={authId}
-                         savePhoto={savePhoto}/>
+            <ProfileInfo profile={myPostPage.profile} editMode={myPostPage.editMode} authId={authId}/>
             <MyPosts/>
         </div>
     )

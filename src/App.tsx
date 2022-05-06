@@ -9,22 +9,6 @@ import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
 import {initializeApp, RequestStatusType} from "./redax/appReducer";
 import {LinearProgress} from "@mui/material";
 
-const NetworkWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #e0dede;
-  flex-wrap: wrap;`
-
-const MainWrapper = styled.div`
-  display: flex;
-  justify-content: center;`
-
-const LinearProgressWrapper = styled(LinearProgress)`
-  position: fixed;
-  width: 100%;`
 
 export const App = () => {
     const initialized = useSelector<AppStoreType, boolean>(s => s.app.isInitialized)
@@ -47,3 +31,16 @@ export const App = () => {
         </NetworkWrapper>
     )
 }
+const NetworkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;`
+
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: center;`
+
+const LinearProgressWrapper = styled(LinearProgress)`
+  position: fixed;
+  width: 100%;`

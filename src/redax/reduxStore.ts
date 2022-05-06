@@ -28,4 +28,3 @@ export type AppThunkType<ReturnType = void> = ThunkAction<void, AppStoreType, un
 
 // @ts-ignore
 window.store = store;
-export type DispatchType = ReturnType<typeof rootReducer>

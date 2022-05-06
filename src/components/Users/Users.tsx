@@ -1,13 +1,14 @@
 import React, {useEffect} from "react";
-import s from "./Users.module.css";
 import userPhoto from "../../assets/images/users_images.png";
-import {Button} from "@mui/material";
 import {follow, getUsers, unfollow, UsersPageType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../redax/reduxStore";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import {Pagination} from "./Pagination";
+import styled from "styled-components";
+import {BlockWrapper, TitleProfileWrapper} from "../../assets/styledComponent/Wrappers";
+import {Button} from "../../assets/styledComponent/Button";
 
 
 export const Users = () => {
@@ -18,57 +19,60 @@ export const Users = () => {
     }, [UsersPage.currentPage])
 
     const dispatch = useDispatch()
-    const onPageChanged = (pageNumber: number) => {
-        return dispatch(getUsers(pageNumber))
-    }
+    const onPageChanged = (pageNumber: number) => dispatch(getUsers(pageNumber))
 
+    const onClickHandler = (id: number, follower: boolean) => {
+        if (follower) {
+            dispatch(unfollow(id))
+        } else {
+            dispatch(follow(id))
+        }
+    }
     return (
-        <div className={s.users}>
-            <div className={s.pages}>
+        <UsersWrapper>
+
+            {UsersPage.users.map((u) =>
+                <UserBlock>
+                    <NavLink to={PATH.Profile + '/' + u.id}>
+                        <Img src={u.photos.small !== null ? u.photos.small : userPhoto} alt={u.photos.small}/>
+                    </NavLink>
+                    <TitleProfileWrapper fontSz={1.2}>{u.name}</TitleProfileWrapper>
+                    <FollowingButton active={u.follower}
+                                     onClick={() => onClickHandler(u.id, u.follower)}>
+                        {u.follower ? 'Unfollow' : 'Follow'}
+                    </FollowingButton>
+                </UserBlock>
+            )}
+            <PaginationBlock>
                 <Pagination totalItemsCount={UsersPage.totalUsersCount} pageSize={UsersPage.pageSize}
                             onPageChanged={onPageChanged} portionSize={10} currentPage={UsersPage.currentPage}/>
-            </div>
-            {UsersPage.users.map((u) =>
-                <div className={s.body_style}>
-                    <div className={s.block_follow}>
-                        <NavLink to={PATH.Profile + '/' + u.id}>
-                            <img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                                 className={s.img} alt={u.photos.small}/>
-                        </NavLink>
-                        <div>{u.name}</div>
-                        <div>
-                            {u.follower
-                                ?
-                                <Button variant="contained"
-                                        size={"small"}
-                                        color={'secondary'}
-                                        onClick={() => {
-                                            dispatch(unfollow(u.id))
-                                        }}>
-                                    Unfollow</Button>
-                                :
-                                <Button variant="contained"
-                                        size={"small"}
-                                        color={'secondary'}
-                                        onClick={() => {
-                                            dispatch(follow(u.id))
-                                        }}>
-                                    Follow</Button>}
-                        </div>
-                    </div>
-
-
-                    <div className={s.right_block}>
-                        <div className={s.block_users}>
-                        </div>
-                        <div className={s.block_country}>
-                            <div>{'u.location.country'}</div>
-                            <div>{'u.location.city'}</div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-        </div>
+            </PaginationBlock>
+        </UsersWrapper>
     )
 }
+
+const UsersWrapper = styled(BlockWrapper)`
+  width: 60vw;
+  margin-bottom: 2vw;
+`
+const UserBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.1vw solid #4d655b;
+  padding: 2vw 0;`
+const Img = styled.img`
+  width: 4vw;
+  border-radius: 50%;
+  border: 0.2vw solid #4d655b`
+const PaginationBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;`
+const FollowingButton = styled(Button)<{ active: boolean }>`
+  width: 5vw;
+  height: 2vw;
+  font-size: 0.9vw;
+  background-color: ${({active}) => active ? '' : '#4d655b'};
+  color: ${({active}) => active ? '#4d655b' : '#ffffff'};
+`

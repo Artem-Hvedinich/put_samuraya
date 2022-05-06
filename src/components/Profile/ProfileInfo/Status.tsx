@@ -7,19 +7,7 @@ import {NullableType} from "../../../redax/authReducer";
 import {useFormik} from "formik";
 import {Button} from '../../../assets/styledComponent/Button'
 
-const Input = styled.input`
-  width: 10vw;
-  height: 1.5vw;
-  font-size: 1vw;
-  border: none;
-  background-color: rgba(77, 101, 91, 0.25)`
-const StatusText = styled.p`
-  padding: 0.1vw 1vw;
 
-  :hover {
-    background-color: rgba(128, 128, 128, 0.05);
-    border-radius: 0.3vw;
-  }`
 export const Status = () => {
     const status = useSelector<AppStoreType, NullableType<string>>(s => s.myPostPage.status)
     const statusEditMode = useSelector<AppStoreType, NullableType<boolean>>(s => s.myPostPage.statusEditMode)
@@ -51,3 +39,17 @@ export const Status = () => {
                 onDoubleClick={activateEditMode}>{status !== '' ? status : 'Set status'}</StatusText>
     )
 }
+const Input = styled.input`
+  width: 10vw;
+  height: 1.5vw;
+  font-size: 1vw;
+  border: none;
+  background-color: rgba(77, 101, 91, 0.25)`
+const StatusText = styled.p`
+  padding: 0.1vw 1vw;
+  cursor: pointer;
+
+  :hover {
+    background-color: rgba(128, 128, 128, 0.05);
+    border-radius: 0.3vw;
+  }`

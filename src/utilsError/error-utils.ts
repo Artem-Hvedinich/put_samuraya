@@ -3,7 +3,6 @@ import {ResponseType} from "../API/api";
 import {setAppError, setAppStatus} from '../redax/appReducer';
 
 // generic function
-
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
 
     if (data.messages.length) {

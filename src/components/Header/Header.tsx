@@ -7,6 +7,30 @@ import styled from "styled-components";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import Navbar from "../Navbar/Navbar";
 
+
+export const Header = () => {
+    const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
+    const dispatch = useDispatch()
+    const logoutClick = () => {
+        dispatch(logout())
+    }
+    return (
+        <HeaderWrapper>
+            <HeaderBlock>
+                <LogoBlock>
+                    <NavLink to={PATH.Profile + `/${auth.id}`}><Img
+                        src='https://cdn-icons-png.flaticon.com/512/136/136436.png'/></NavLink>
+                </LogoBlock>
+                <Navbar authId={auth.id}/>
+                {auth.isAuth ? <div>
+                        <Button onClick={logoutClick}>Logout</Button>
+                    </div>
+                    : <NavLinkWrapper to={PATH.Login}>Login</NavLinkWrapper>}
+            </HeaderBlock>
+        </HeaderWrapper>
+    )
+}
+
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: center;
@@ -41,30 +65,8 @@ const Button = styled.button`
   border-radius: 0.5vw;
   background: none;
   cursor: pointer;
+
   :hover {
     background-color: #cccaca;
     transition: background-color 0.5s;
   }`
-
-export const Header = () => {
-    const auth = useSelector<AppStoreType, DataAuthType>(s => s.auth)
-    const dispatch = useDispatch()
-    const logoutClick = () => {
-        dispatch(logout())
-    }
-    return (
-        <HeaderWrapper>
-            <HeaderBlock>
-                <LogoBlock>
-                    <NavLink to={PATH.Profile + `/${auth.id}`}><Img
-                        src='https://cdn-icons-png.flaticon.com/512/136/136436.png'/></NavLink>
-                </LogoBlock>
-                <Navbar authId={auth.id}/>
-                {auth.isAuth ? <div>
-                        <Button onClick={logoutClick}>Logout</Button>
-                    </div>
-                    : <NavLinkWrapper to={PATH.Login}>Login</NavLinkWrapper>}
-            </HeaderBlock>
-        </HeaderWrapper>
-    )
-}

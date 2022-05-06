@@ -10,15 +10,21 @@ const initialState: ProfilePageType = {
     posts: [
         {
             id: v1(),
-            message: 'Hi, how are you?',
+            img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
+            nameUsers: 'Artem Hved',
+            message: 'I`m a result oriented front end developer with experience in creating.' +
+                'Landing Pages and SPA, using React(JS/TS), Redux, HTML & CSS, you can see my projects on GitHub.' +
+                'Now I am improving my skills in this direction and expanding them with new technologies. I\'m planning to become a full-stack developer and learn NodeJs. My free time is dedicated to solving katas on Codewars and boosting my English.',
             likesCount: 12,
-            img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
+
         },
         {
             id: v1(),
-            message: 'American idol',
+            img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
+            nameUsers: 'Artem Hved',
+            message: 'I have collectedover the years and days. My skill: HTML/CSS, JavaScript/ TypeScript, ' +
+                'React, Redux/Redux Toolkit, Styled Components, Rest API / UNIT Test,',
             likesCount: 90,
-            img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
         },
     ],
     profile: {} as ProfileType,
@@ -38,7 +44,9 @@ const slice = createSlice({
                     id: v1(),
                     message: action.payload.addNewPost,
                     likesCount: 0,
-                    img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4'
+                    img: 'https://bitprice.ru/sites/default/files/styles/mt_photo/public/img/logo/brands/447105.png?itok=uchLL3-4',
+                    nameUsers: 'Artem Hved'
+
                 }, ...state.posts]
             }
         },
@@ -143,6 +151,7 @@ export type ProfilePageType = {
 }
 export type PostType = {
     id: string,
+    nameUsers: string
     message: string,
     likesCount: number
     img: string
