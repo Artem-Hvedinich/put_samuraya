@@ -1,7 +1,7 @@
 import {authAPI, securityAPI} from "../API/api";
 import {Dispatch} from "redux";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunkType} from "./reduxStore";
+import {AppThunkType} from "./store";
 import {handleServerAppError, handleServerNetworkError} from "../utilsError/error-utils";
 import {setAppStatus} from "./appReducer";
 

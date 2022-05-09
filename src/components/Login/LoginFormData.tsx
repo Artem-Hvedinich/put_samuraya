@@ -5,7 +5,7 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {FormikComponents} from "../../assets/FormikComponents";
 import React from "react";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import {Button} from '../../assets/styledComponent/Button'
 
 const TextWrapper = styled.div`

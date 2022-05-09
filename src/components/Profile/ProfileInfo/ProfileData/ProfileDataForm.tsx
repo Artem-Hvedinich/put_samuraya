@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {ProfileType, saveProfile} from "../../../../redax/profileReducer";
 import {Button} from "../../../../assets/styledComponent/Button";
 import {FormikComponents} from "../../../../assets/FormikComponents";
+import {ModalWrapper} from "../../../../assets/styledComponent/Wrappers";
 
 
 export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
@@ -62,7 +63,7 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
                                       name="lookingForAJobDescription"
                                       onChange={formik.handleChange} value={formik.values.lookingForAJobDescription}
                                       text={'Job description:'}/>
-                    <span style={{fontSize:'0.8vw'}}>Contact:</span>
+                    <span style={{fontSize: '0.8vw'}}>Contact:</span>
                     {profile.contacts && Object.keys(profile.contacts).map((key) => {
                         console.log(`contacts.${key}`)
                         return <div key={key}>
@@ -82,17 +83,6 @@ export const ProfileDataForm = ({profile}: { profile: ProfileType }) => {
     )
 }
 
-const ModalWrapper = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background: #e0dede;`
 const InfoBlock = styled.div`
   position: fixed;
   width: 40vw;

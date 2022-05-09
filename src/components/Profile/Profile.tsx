@@ -4,7 +4,7 @@ import {MyPosts} from "./MyPosts/MyPosts";
 import {getUserProfile, getUserStatus, ProfilePageType, } from "../../redax/profileReducer";
 import {useDispatch, useSelector,} from "react-redux";
 import {Navigate, useParams} from "react-router-dom";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import {NullableType} from "../../redax/authReducer";
 

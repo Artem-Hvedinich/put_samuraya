@@ -5,7 +5,7 @@ import Messages from "./Message/Message";
 import {MessagePageType, sendMessageCreator} from "../../redax/dialogsReducer";
 import {Navigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import {AddMessageFormRedux} from "./AddNewMessage";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 

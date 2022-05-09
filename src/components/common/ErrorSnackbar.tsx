@@ -2,7 +2,7 @@ import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import { NullableType } from '../../redax/authReducer';
 import {setAppError} from "../../redax/appReducer";
 

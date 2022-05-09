@@ -24,7 +24,7 @@ export const ProfileInfo = ({profile, authId, editMode}
 
     return (
         <ProfileInfoWrapper>
-            <AvatarWrapper>
+            <AvatarWrapper userMe={isOwner}>
                 <Img src={profile.photos?.large || usersImg}/>
                 {isOwner && <>
                     <InputFile onChange={mainPhotoSelected}>Loading your photo</InputFile>
@@ -33,7 +33,7 @@ export const ProfileInfo = ({profile, authId, editMode}
                         Edit profile</Button></>}
             </AvatarWrapper>
             {editMode ? <ProfileDataForm profile={profile}/> :
-                <ProfileData profile={profile}/>}
+                <ProfileData isOwner={isOwner} profile={profile}/>}
         </ProfileInfoWrapper>
     )
 }
@@ -43,14 +43,14 @@ const ProfileInfoWrapper = styled.div`
   justify-content: space-between;
   width: 60vw; `
 
-const AvatarWrapper = styled(BlockWrapper)`
+const AvatarWrapper = styled(BlockWrapper)<{ userMe:boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 15vw;
   padding: 1vw;
-  min-height: 19vw;`
+  min-height: ${({userMe})=>userMe? '19vw':'12vw'}`
 
 const Img = styled.img`
   width: 100%;

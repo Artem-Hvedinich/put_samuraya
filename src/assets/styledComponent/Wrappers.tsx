@@ -33,3 +33,15 @@ export const TextProfileWrapper = styled.p<{ color?: string, fontSz: number, opa
   color: ${({color}) => color};
   opacity: ${({opacity}) => opacity};
   text-align: ${({textAlign}) => textAlign}`;
+
+export const ModalWrapper = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: #e0dede;`

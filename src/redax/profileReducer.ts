@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {profileApi} from "../API/api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunkType} from "./reduxStore";
+import {AppThunkType} from "./store";
 import {NullableType} from "./authReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utilsError/error-utils";
 import {setAppStatus} from "./appReducer";

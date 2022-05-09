@@ -1,13 +1,14 @@
 import React from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Users} from "../Users/Users";
-import News from "../News/News";
-import Music from "../Music/Music";
-import Setting from "../Settings/Setting";
+import {News} from "../News/News";
+import {Music} from "../Music/Music";
+import {Setting} from "../Settings/Setting";
 import {Login} from "../Login/Login";
 import {NullableType} from "../../redax/authReducer";
 import Profile from '../Profile/Profile';
 import Dialogs from '../Dialogs/Dialogs';
+import {OneNews} from "../News/NewsContentBlock";
 
 export const PATH = {
     Login: '/login',
@@ -28,9 +29,11 @@ export const RoutersWrapper = ({isAuth, authId}: { isAuth: boolean, authId: Null
             <Route path={PATH.Dialogs} element={
                 <Dialogs isAuth={isAuth}/>}/>
             <Route path={PATH.News} element={<News/>}/>
+            <Route path={PATH.News + '/:newsId'} element={<OneNews/>}/>
             <Route path={PATH.Music} element={<Music/>}/>
             <Route path={PATH.Setting} element={<Setting/>}/>
-            <Route path={PATH.Login} element={<Login isAuth={isAuth} authId={authId}/>}/>
+            <Route path={PATH.Login} element={<Login isAuth={isAuth} authId={authId}/>
+            }/>
         </Routes>
     )
 }

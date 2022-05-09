@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {usersAPI} from "../API/api";
-import {AppThunkType} from "./reduxStore";
+import {AppThunkType} from "./store";
 import {setAppStatus} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utilsError/error-utils";
 

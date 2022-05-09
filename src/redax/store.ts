@@ -7,6 +7,7 @@ import thunk from 'redux-thunk'
 import {reducer as formReducer} from 'redux-form'
 import {appReducer} from "./appReducer";
 import {configureStore, ThunkAction, Action} from "@reduxjs/toolkit";
+import {newsReducer} from "./newsReducer";
 
 export type AppStoreType = ReturnType<typeof rootReducer>
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     form: formReducer,
+    news: newsReducer
 })
 
 export const store = configureStore({

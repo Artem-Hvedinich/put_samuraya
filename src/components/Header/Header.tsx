@@ -1,7 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import {DataAuthType, logout} from "../../redax/authReducer";
 import styled from "styled-components";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
@@ -33,6 +33,7 @@ export const Header = () => {
 
 const HeaderWrapper = styled.header`
   display: flex;
+  z-index: 3;
   justify-content: center;
   width: 100vw;
   background-color: rgb(255, 255, 255);

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Post} from "./Post/Post";
 import {PostType,} from "../../../redax/profileReducer";
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../redax/reduxStore";
+import {AppStoreType} from "../../../redax/store";
 import styled from "styled-components";
 import {AddPost} from "./AddPost";
 import {BlockWrapper, TitleProfileWrapper} from "../../../assets/styledComponent/Wrappers";

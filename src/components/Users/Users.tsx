@@ -3,7 +3,7 @@ import userPhoto from "../../assets/images/users_images.png";
 import {follow, getUsers, unfollow, UsersPageType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../redax/reduxStore";
+import {AppStoreType} from "../../redax/store";
 import {PATH} from "../RoutesWrapper/RoutersWrapper";
 import {Pagination} from "./Pagination";
 import styled from "styled-components";
@@ -20,7 +20,6 @@ export const Users = () => {
 
     const dispatch = useDispatch()
     const onPageChanged = (pageNumber: number) => dispatch(getUsers(pageNumber))
-
     const onClickHandler = (id: number, follower: boolean) => {
         if (follower) {
             dispatch(unfollow(id))
@@ -28,6 +27,8 @@ export const Users = () => {
             dispatch(follow(id))
         }
     }
+
+
     return (
         <UsersWrapper>
 
